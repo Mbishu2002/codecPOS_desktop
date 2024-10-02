@@ -30,7 +30,14 @@ import {
 
 const navigationItems = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Orders', href: '/orders', icon: ListOrdered },
+  {
+    name: 'Orders',
+    icon: ListOrdered,
+    subItems: [
+      { name: 'Orders', href: '/orders/orders' },
+      { name: 'Returns', href: '/orders/returns' },
+    ],
+  },
   {
     name: 'Products',
     icon: Tag,
@@ -52,6 +59,7 @@ const navigationItems = [
     subItems: [
       { name: 'Income', href: '/reports/income' },
       { name: 'Expenses', href: '/reports/expenses' },
+      { name: 'Financial Performance', href: '/reports/performance' },
     ],
   },
 ]
@@ -122,13 +130,17 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                         {item.subItems.map((subItem) => (
                           <li key={subItem.name}>
                             <Link
-                              href={subItem.href}
+                              href={subItem.href} 
                               className={cn(
                                 "block rounded-md px-3 py-2 text-sm font-medium transition-colors",
                                 pathname === subItem.href
                                   ? "bg-blue-600 text-white"
                                   : "text-gray-700 hover:bg-gray-100"
                               )}
+                              onClick={() => {
+                                // Keep the dropdown open when clicking a sub-item
+                                setOpenDropdowns(prev => ({ ...prev, [item.name]: true }));
+                              }}
                             >
                               {subItem.name}
                             </Link>
