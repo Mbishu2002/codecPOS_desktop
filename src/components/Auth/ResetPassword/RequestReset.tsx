@@ -12,13 +12,9 @@ export function ResetPassword() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <div className="flex-1 relative overflow-hidden p-8">
-        <Image
-          src="/placeholder.svg"
-          alt="SalesBox Logo"
-          width={150}
-          height={40}
-          className="mb-8"
-        />
+      <div className="absolute top-4 left-4">
+        <Image src="/assets/images/salesbox-logo.svg" alt="SalesBox Logo" width={120} height={40} />
+        </div>
         <div className="grid grid-cols-2 gap-8">
           <Card className="col-span-1">
             <CardContent className="p-6">
