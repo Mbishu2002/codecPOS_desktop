@@ -17,6 +17,9 @@ async function fetchProductById(id: string): Promise<Product> {
     quantity: 10,
     unitType: "pcs",
     purchasePrice: 100,
-    // Add other properties as needed
+    category: "Electronics", // Add the missing property
+    sellingPrice: 150, // Add the missing property
+    suppliers: ["Supplier A", "Supplier B"], // Add the missing property
+    status: "Available", // Add the missing property
   };
 }
