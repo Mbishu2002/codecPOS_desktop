@@ -86,7 +86,7 @@ export function VerifyEmail() {
             </p>
             <Button className="w-full mb-4 bg-blue-500 hover:bg-blue-600 text-white uppercase">Skip for now</Button>
             <p className="text-sm text-center">
-              Didn't get the mail? <a href="#" className="text-blue-500 hover:underline">Resend</a>
+              Didn&apos;t get the mail? <a href="#" className="text-blue-500 hover:underline">Resend</a>
             </p>
           </div>
         </div>

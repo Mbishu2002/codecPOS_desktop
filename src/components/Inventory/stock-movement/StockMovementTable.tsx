@@ -42,7 +42,7 @@ const stockMovementsData: StockMovement[] = [
 ]
 
 export function StockMovementTable() {
-  const [movements, setMovements] = useState<StockMovement[]>(stockMovementsData)
+  const [movements] = useState<StockMovement[]>(stockMovementsData)
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedMovements, setSelectedMovements] = useState<number[]>([])

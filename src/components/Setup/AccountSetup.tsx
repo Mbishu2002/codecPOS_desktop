@@ -194,7 +194,7 @@ const AccountSetup = () => {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="shopLogo">Shop's logo</Label>
+                    <Label htmlFor="shopLogo">Shop&aposs logo</Label>
                     <Input
                       id="shopLogo"
                       name="shopLogo"

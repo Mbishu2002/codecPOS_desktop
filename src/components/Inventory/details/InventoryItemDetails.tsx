@@ -58,7 +58,8 @@ interface Product {
 }
 
 export const InventoryItemDetails: React.FC<{ product: Product }> = ({ product }) => {
-  const [productDetails, setProductDetails] = useState<ProductDetails | null>(null); // Update the state initialization
+  const [ /* eslint-disable @typescript-eslint/no-unused-vars */
+    productDetails, setProductDetails] = useState<ProductDetails | null>(null); // Update the state initialization
   const router = useRouter()
 
   useEffect(() => {

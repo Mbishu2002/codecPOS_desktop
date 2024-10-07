@@ -2,8 +2,9 @@
 
 export interface Order {
     id: string; // or number, depending on your ID type
-    customerName: string;
-    totalAmount: number;
-    status: string; // e.g., "pending", "completed", etc.
+    customerName: string; // Ensure this property exists
+    totalAmount: number;   // Ensure this property exists
+    status: string;     
+       // Ensure this property exists
     // Add any other relevant fields for your order
   }

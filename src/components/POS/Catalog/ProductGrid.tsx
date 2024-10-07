@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent } from "@/components/ui/card"
 import { Edit, Minus, Plus, X } from "lucide-react"
+import Image from 'next/image'
 
 // Mock data for products (expanded)
 const products = [
@@ -41,7 +42,7 @@ const inventories = [
 const ProductCard = ({ product, onAddToCart }) => (
   <Card className="w-full">
     <CardContent className="p-4">
-      <img src={product.image} alt={product.name} className="w-full h-32 object-cover mb-2" />
+      <Image src={product.image} alt={product.name} className="w-full h-32 object-cover mb-2" width={100} height={100} />
       <h3 className="font-semibold">{product.name}</h3>
       <p className="text-sm">{product.price} XAF</p>
       <div className="flex justify-between items-center mt-2">

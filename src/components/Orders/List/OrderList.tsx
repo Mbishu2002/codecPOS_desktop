@@ -21,33 +21,24 @@ import {
 } from "@/components/ui/table"
 import { Checkbox } from "@/components/ui/checkbox"
 import { PenIcon, TrashIcon } from 'lucide-react'
-import {DeleteConfirmationModal} from '@/components/ui/Modal/delete-confrimation-modal'
+import { DeleteConfirmationModal } from '@/components/ui/Modal/delete-confrimation-modal'
 import { EmptyState } from '@/components/Orders/Empty/NoOrders'
+import { Order } from "@/types/order"; // Ensure this import matches the expected Order type
 
-type Order = {
-  id: string
-  date: string
-  deliveryStatus: 'Delivered' | 'Pending' | 'Failed'
-  amountPaid: string
-  changeGiven: string
-  paymentStatus: 'Paid' | 'Pending'
-  netAmountPaid: string
-}
-
-const orders: Order[] = [
-  { id: '#12512B', date: 'May 5, 4:20 PM', deliveryStatus: 'Delivered', amountPaid: '4,000 XAF', changeGiven: '2,000 XAF', paymentStatus: 'Paid', netAmountPaid: '2,000 XAF' },
-  { id: '#12523C', date: 'May 5, 4:15 PM', deliveryStatus: 'Delivered', amountPaid: '23,000 XAF', changeGiven: '1,000 XAF', paymentStatus: 'Paid', netAmountPaid: '22,000 XAF' },
-  { id: '#51232A', date: 'May 5, 4:15 PM', deliveryStatus: 'Delivered', amountPaid: '551 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '551 XAF' },
-  { id: '#23534D', date: 'May 5, 4:12 PM', deliveryStatus: 'Delivered', amountPaid: '2,974 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '2,974 XAF' },
-  { id: '#51323C', date: 'May 5, 4:12 PM', deliveryStatus: 'Delivered', amountPaid: '2,306 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '2,306 XAF' },
-  { id: '#35622A', date: 'May 5, 4:12 PM', deliveryStatus: 'Delivered', amountPaid: '8,744 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '8,744 XAF' },
-  { id: '#34232D', date: 'May 5, 4:10 PM', deliveryStatus: 'Pending', amountPaid: '4,455 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '4,455 XAF' },
-  { id: '#56212D', date: 'May 5, 4:08 PM', deliveryStatus: 'Pending', amountPaid: '3,679 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '3,679 XAF' },
-  { id: '#76543E', date: 'May 5, 4:08 PM', deliveryStatus: 'Pending', amountPaid: '2,878 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '2,878 XAF' },
-  { id: '#12512B', date: 'May 5, 4:05 PM', deliveryStatus: 'Pending', amountPaid: '9,646 XAF', changeGiven: '--', paymentStatus: 'Paid', netAmountPaid: '9,646 XAF' },
-  { id: '#12523C', date: 'May 5, 4:05 PM', deliveryStatus: 'Failed', amountPaid: '4,000 XAF', changeGiven: '2,000 XAF', paymentStatus: 'Paid', netAmountPaid: '2,000 XAF' },
-  { id: '#23534D', date: 'May 5, 4:04 PM', deliveryStatus: 'Pending', amountPaid: '4,000 XAF', changeGiven: '2,000 XAF', paymentStatus: 'Pending', netAmountPaid: '2,000 XAF' },
-  { id: '#12523C', date: 'May 5, 4:04 PM', deliveryStatus: 'Failed', amountPaid: '10,000 XAF', changeGiven: '3,000 XAF', paymentStatus: 'Pending', netAmountPaid: '7,000 XAF' },
+const initialOrders: Order[] = [
+  { id: '#12512B-1', date: 'May 5, 4:20 PM', deliveryStatus: 'Delivered', amountPaid: '4,000 XAF', changeGiven: '2,000 XAF', paymentStatus: 'Paid', netAmountPaid: '2,000 XAF' },
+  { id: '#12523C-1', date: 'May 5, 4:15 PM', deliveryStatus: 'Delivered', amountPaid: '23,000 XAF', changeGiven: '1,000 XAF', paymentStatus: 'Paid', netAmountPaid: '22,000 XAF' },
+  { id: '#51232A-1', date: 'May 5, 4:15 PM', deliveryStatus: 'Delivered', amountPaid: '551 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '551 XAF' },
+  { id: '#23534D-1', date: 'May 5, 4:12 PM', deliveryStatus: 'Delivered', amountPaid: '2,974 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '2,974 XAF' },
+  { id: '#51323C-1', date: 'May 5, 4:12 PM', deliveryStatus: 'Delivered', amountPaid: '2,306 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '2,306 XAF' },
+  { id: '#35622A-1', date: 'May 5, 4:12 PM', deliveryStatus: 'Delivered', amountPaid: '8,744 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '8,744 XAF' },
+  { id: '#34232D-1', date: 'May 5, 4:10 PM', deliveryStatus: 'Pending', amountPaid: '4,455 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '4,455 XAF' },
+  { id: '#56212D-1', date: 'May 5, 4:08 PM', deliveryStatus: 'Pending', amountPaid: '3,679 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '3,679 XAF' },
+  { id: '#76543E-1', date: 'May 5, 4:08 PM', deliveryStatus: 'Pending', amountPaid: '2,878 XAF', changeGiven: '-', paymentStatus: 'Paid', netAmountPaid: '2,878 XAF' },
+  { id: '#12512B-2', date: 'May 5, 4:05 PM', deliveryStatus: 'Pending', amountPaid: '9,646 XAF', changeGiven: '--', paymentStatus: 'Paid', netAmountPaid: '9,646 XAF' },
+  { id: '#12523C-2', date: 'May 5, 4:05 PM', deliveryStatus: 'Failed', amountPaid: '4,000 XAF', changeGiven: '2,000 XAF', paymentStatus: 'Paid', netAmountPaid: '2,000 XAF' },
+  { id: '#23534D-2', date: 'May 5, 4:04 PM', deliveryStatus: 'Pending', amountPaid: '4,000 XAF', changeGiven: '2,000 XAF', paymentStatus: 'Pending', netAmountPaid: '2,000 XAF' },
+  { id: '#12523C-3', date: 'May 5, 4:04 PM', deliveryStatus: 'Failed', amountPaid: '10,000 XAF', changeGiven: '3,000 XAF', paymentStatus: 'Pending', netAmountPaid: '7,000 XAF' },
 ]
 
 interface OrderListProps {
@@ -55,7 +46,8 @@ interface OrderListProps {
   onAddOrder: () => void;
 }
 
-export function OrderList({ onOrderClick, onAddOrder }: OrderListProps) {
+export const OrderList: React.FC<OrderListProps> = ({ onOrderClick, onAddOrder }) => {
+  const [orders, setOrders] = useState<Order[]>(initialOrders); // State for orders
   const [selectedOrders, setSelectedOrders] = useState<string[]>([])
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [orderToDelete, setOrderToDelete] = useState<string | null>(null)
@@ -78,16 +70,15 @@ export function OrderList({ onOrderClick, onAddOrder }: OrderListProps) {
   }
 
   const handleDeleteConfirm = () => {
-    // Implement delete logic here
-    console.log(`Deleting order: ${orderToDelete}`)
-    setIsDeleteModalOpen(false)
-    setOrderToDelete(null)
-    // Reset selected orders after deletion
-    setSelectedOrders([])
+    const updatedOrders = orders.filter(order => order.id !== orderToDelete);
+    setOrders(updatedOrders); // Update the orders state with the filtered list
+    setSelectedOrders([]);
+    setOrderToDelete(null);
+    setIsDeleteModalOpen(false);
   }
 
   if (orders.length === 0) {
-    return <EmptyState />
+    return <EmptyState onAddOrder={onAddOrder} />; // Pass the add order function
   }
 
   return (
@@ -132,7 +123,7 @@ export function OrderList({ onOrderClick, onAddOrder }: OrderListProps) {
           </svg>
         </div>
         <div className="flex space-x-2">
-          <Button variant="outline" size="icon">
+          <Button variant="outline" size="icon" aria-label="Edit selected orders">
             <PenIcon className="h-4 w-4" />
           </Button>
           <Button 
@@ -140,6 +131,7 @@ export function OrderList({ onOrderClick, onAddOrder }: OrderListProps) {
             size="icon" 
             onClick={handleDeleteClick}
             disabled={selectedOrders.length === 0}
+            aria-label="Delete selected orders"
           >
             <TrashIcon className="h-4 w-4" />
           </Button>
@@ -161,8 +153,8 @@ export function OrderList({ onOrderClick, onAddOrder }: OrderListProps) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders.map((order, index) => (
-              <TableRow key={index} onClick={() => onOrderClick(order)} className="cursor-pointer">
+            {orders.map((order) => (
+              <TableRow key={order.id} onClick={() => onOrderClick(order)} className="cursor-pointer">
                 <TableCell>
                   <Checkbox
                     checked={isOrderSelected(order.id)}

@@ -5,7 +5,7 @@ import { OrderList } from "@/components/Orders/List/OrderList"
 import { AddOrder } from "@/components/Orders/Form/AddOrder"
 import { OrderDetails } from "@/components/Orders/Details/OrderDetails"
 import { DashboardLayout } from "@/components/Shared/Layout/DashboardLayout"
-import { Order } from 'g:/codecPOS PROJECT/codecPOS_web/src/types/order'; // Ensure this import matches the expected Order type
+import { Order } from "@/types/order"; // Ensure this import matches the expected Order type
 
 export default function OrdersPage() {
   const [view, setView] = useState<"list" | "add" | "details">("list")
@@ -29,7 +29,7 @@ export default function OrdersPage() {
     <DashboardLayout>
       <div className="container mx-auto p-6">
         {view === "list" && (
-          <OrderList onOrderClick={handleOrderClick} onAddOrder={handleAddOrder} />
+          <OrderList onOrderClick={(order: Order) => handleOrderClick(order)} onAddOrder={handleAddOrder} />
         )}
         {view === "add" && (
           <AddOrder onBack={handleBack} />

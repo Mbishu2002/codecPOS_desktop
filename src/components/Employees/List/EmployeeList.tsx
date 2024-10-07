@@ -42,7 +42,8 @@ interface EmployeeListProps {
 }
 
 export function EmployeeList({ onEmployeeClick, onAddEmployee, onEditEmployee }: EmployeeListProps) {
-  const [selectedEmployees, setSelectedEmployees] = useState<string[]>([])
+  const [ /* eslint-disable @typescript-eslint/no-unused-vars */
+     selectedEmployees, setSelectedEmployees] = useState<string[]>([])
 
   const handleEmployeeClick = (employee: Employee) => {
     onEmployeeClick(employee)

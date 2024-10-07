@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ArrowUpIcon, DollarSignIcon, LockIcon, TrendingUpIcon,ChevronDown, ChevronUp, ChevronRight} from "lucide-react"
+// Removed unused imports
+// import { ArrowUpIcon, DollarSignIcon, LockIcon, TrendingUpIcon, ChevronDown, ChevronUp, ChevronRight } from "lucide-react"
+import { LockIcon, TrendingUpIcon, ChevronDown, ChevronUp, ChevronRight } from "lucide-react" // Keep only the used icons
 
 export function ForgotPassword() {
   return (
@@ -73,9 +75,8 @@ export function ForgotPassword() {
         <div className="w-full max-w-md">
           <h1 className="text-3xl font-bold mb-2 flex items-center">
             Forgot Password <LockIcon className="ml-2 w-6 h-6" />
-          </h1>
-          <p className="text-gray-500 mb-8">
-            Enter your email and we'll send you instructions to reset your password
+          </h1> <p className="text-gray-500 mb-8">
+            Enter your email and we&lsquo;ll send you instructions to reset your password
           </p>
           <form className="space-y-4">
             <div>

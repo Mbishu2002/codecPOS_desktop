@@ -7,26 +7,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChevronLeft } from "lucide-react"
 import { roles, shops } from "../Lib/constants"
-
-interface Employee {
-  id: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  email: string;
-  role: string;
-  shop: string;
-  country: string;
-  address: string;
-  dateOfBirth: string;
-  password: string;
-}
+import { Employee } from "@/app/employees/page"; // Adjust the import path as necessary
 
 interface AddEditEmployeeProps {
-  employee: Employee | null;
   onBack: () => void;
-  onSave: (employee: Employee) => void;
-  isEdit: boolean;
+  onSave: (employee: Employee) => void; // Ensure this matches the Employee type
+  employee?: Employee; // Ensure this matches the Employee type
 }
 
 export function AddEditEmployee({ employee, onBack, onSave, isEdit }: AddEditEmployeeProps) {

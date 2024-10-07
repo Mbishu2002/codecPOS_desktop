@@ -42,7 +42,7 @@ const purchaseHistoryData: PurchaseHistory[] = [
 ]
 
 export function PurchaseHistoryTable() {
-  const [purchases, setPurchases] = useState<PurchaseHistory[]>(purchaseHistoryData)
+  const [purchases, ] = useState<PurchaseHistory[]>(purchaseHistoryData)
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedPurchases, setSelectedPurchases] = useState<number[]>([])

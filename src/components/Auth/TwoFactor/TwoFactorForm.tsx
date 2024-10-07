@@ -4,7 +4,8 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+// Removed unused import
+// import { Label } from "@/components/ui/label"
 import { ArrowDownIcon, UserIcon, WalletIcon } from "lucide-react"
 
 export function TwoStepVerificationComponent() {
@@ -76,7 +77,7 @@ export function TwoStepVerificationComponent() {
               </div>
               <Button className="w-full mb-4">SKIP FOR NOW</Button>
               <div className="text-center">
-                <span className="text-sm text-gray-500">Didn't get the mail? </span>
+                <span className="text-sm text-gray-500">Didn&apos;t get the mail? </span>
                 <a href="#" className="text-sm text-blue-500 hover:underline">Resend</a>
               </div>
             </CardContent>

@@ -16,16 +16,16 @@ interface AddProductProps {
 }
 
 export function AddProduct({ onBack }: AddProductProps) {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  //const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [selectedShops, setSelectedShops] = useState<string[]>(['Shop3 New'])
 
-  const handleCategoryChange = (category: string) => {
+  /*const handleCategoryChange = (category: string) => {
     setSelectedCategories(prev => 
       prev.includes(category) 
         ? prev.filter(c => c !== category)
         : [...prev, category]
     )
-  }
+  } */
 
   const handleShopChange = (shop: string) => {
     setSelectedShops(prev => 

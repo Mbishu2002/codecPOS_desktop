@@ -8,7 +8,7 @@ import { DashboardLayout } from "@/components/Shared/Layout/DashboardLayout"
 
 export interface Employee {
   id: string;
-  name: string;
+  name: string; // Ensure this property exists
   phone: string;
   role: string;
   email: string;
@@ -58,7 +58,7 @@ export default function EmployeesPage() {
           <AddEditEmployee
             onBack={handleBack} 
             onSave={handleSaveEmployee}
-            employee={view === "edit" ? selectedEmployee : undefined}
+            employee={view === "edit" ? selectedEmployee || undefined : undefined} // Updated line
           />
         )}
         {view === "details" && selectedEmployee && (

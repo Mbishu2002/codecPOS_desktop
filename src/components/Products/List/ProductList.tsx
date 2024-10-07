@@ -6,19 +6,10 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Card, CardContent } from "@/components/ui/card"
-import { ChevronDown, ListFilter, Pencil, Trash2, Edit } from "lucide-react"
+//import { Card, CardContent } from "@/components/ui/card"
+import { ListFilter, Pencil, Trash2 } from "lucide-react"
 import Image from 'next/image';
-
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  inventory: number;
-  price: string;
-  image: string;
-  inStock: boolean;
-}
+import { Product } from "@/types/product"; // Ensure this matches the expected Product type
 
 interface ProductListProps {
   onProductClick: (product: Product) => void;

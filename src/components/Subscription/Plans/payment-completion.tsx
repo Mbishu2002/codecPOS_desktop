@@ -12,9 +12,9 @@ export function PaymentCompletion({ selectedMethod, onBack }) {
       </Button>
       <Card className="max-w-md mx-auto">
         <CardHeader>
-          <CardTitle className="text-center">MTN LOGO</CardTitle>
+          <CardTitle className="text-center">{selectedMethod} LOGO</CardTitle> {/* Use selectedMethod here */}
           <CardDescription className="text-center">
-            MTN MOMO Payment
+            {selectedMethod} Payment
             <span className="text-blue-500 cursor-pointer" onClick={onBack}> Change Payment method</span>
           </CardDescription>
         </CardHeader>
