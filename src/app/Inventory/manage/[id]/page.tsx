@@ -10,7 +10,7 @@ export default async function ProductDetailsPage({ params }: { params: { id: str
 
 async function fetchProductById(id: string): Promise<Product> {
   // Simulate fetching product details
-  return {
+  return  {
     id,
     name: "Sample Product", // Ensure all required properties are included
     sku: "SKU123",
