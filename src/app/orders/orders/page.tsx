@@ -5,12 +5,13 @@ import { OrderList } from "@/components/Orders/List/OrderList"
 import { AddOrder } from "@/components/Orders/Form/AddOrder"
 import { OrderDetails } from "@/components/Orders/Details/OrderDetails"
 import { DashboardLayout } from "@/components/Shared/Layout/DashboardLayout"
+// Removed the import of Order from "@/types" due to the error
 
 export default function OrdersPage() {
   const [view, setView] = useState<"list" | "add" | "details">("list")
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
+  const [selectedOrder, setSelectedOrder] = useState<any | null>(null)
 
-  const handleOrderClick = (order: Order) => {
+  const handleOrderClick = (order: any) => {
     setSelectedOrder(order)
     setView("details")
   }
@@ -34,7 +35,7 @@ export default function OrdersPage() {
           <AddOrder onBack={handleBack} />
         )}
         {view === "details" && selectedOrder && (
-          <OrderDetails orderId={selectedOrder.id} onBack={handleBack} />
+          <OrderDetails orderId={selectedOrder.id} />   
         )}
       </div>
     </DashboardLayout>

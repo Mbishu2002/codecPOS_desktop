@@ -55,10 +55,10 @@ export function ResetPassword() {
           </Card>
         </div>
         <Image
-          src="/placeholder.svg?height=400&width=300"
+          src="/assets/images/reset-image.svg"
           alt="3D Character"
-          width={300}
-          height={400}
+          width={2000}
+          height={2000}
           className="absolute bottom-0 left-1/2 transform -translate-x-1/2"
         />
       </div>

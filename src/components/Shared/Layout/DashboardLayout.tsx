@@ -50,7 +50,19 @@ const navigationItems = [
   { name: 'POS', href: '/pos', icon: Monitor },
   { name: 'Customers', href: '/customers', icon: Users },
   { name: 'Shops', href: '/shops', icon: Home },
-  { name: 'Inventory', href: '/inventory', icon: Package },
+
+
+  { name: 'Inventory', href: '/Inventory/dashboard', icon: Package,
+    subItems: [ 
+      {name: 'Dashboard', href: '/Inventory/dashboard'},
+      { name: 'Inventory List', href: '/Inventory/Inventory-list' },
+      {name: 'Add Inventory', href: 'Inventory/add-inventory'},
+      {name: 'Purchase History', href: 'Inventory/purchase-history'},
+      {name: 'Stock Movement', href:   'Inventory/stock-movement' },
+
+    ],
+  },
+
   { name: 'Subscriptions', href: '/subscriptions', icon: CreditCard },
   { name: 'Employees', href: '/employees', icon: UserCheck },
   {

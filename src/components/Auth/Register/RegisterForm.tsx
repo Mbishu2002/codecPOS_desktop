@@ -17,7 +17,7 @@ export function Register() {
         <Image src="/assets/images/salesbox-logo.svg" alt="SalesBox Logo" width={120} height={40} />
         </div>
         <div className="grid grid-cols-2 gap-8 mt-8">
-          <Card className="w-[168px] h-[201px]" style={{position: 'absolute', left: '167px', top: '406px'}}>
+          <Card className="w-[168px] h-[201px]" style={{position: 'absolute', left: '30px', top: '100px'}}>
             <CardContent className="p-4">
               <div className="flex flex-col gap-1 mb-4">
                 <div className="text-2xl font-bold">24.6k <span className="text-sm text-green-500">+38%</span></div>
@@ -33,7 +33,7 @@ export function Register() {
               </div>
             </CardContent>
           </Card>
-          <Card className="w-[166px] h-[210px] shadow-lg rounded-lg" style={{position: 'absolute', left: '668px', top: '166px'}}>
+          <Card className="w-[166px] h-[210px] shadow-lg rounded-lg" style={{position: 'absolute', left: '438px', top: '140px'}}>
             <CardContent className="p-4">
               <div className="flex flex-col mb-2">
                 <div className="flex items-center  mr-2">
