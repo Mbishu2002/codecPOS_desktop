@@ -5,13 +5,13 @@ import { OrderList } from "@/components/Orders/List/OrderList"
 import { AddOrder } from "@/components/Orders/Form/AddOrder"
 import { OrderDetails } from "@/components/Orders/Details/OrderDetails"
 import { DashboardLayout } from "@/components/Shared/Layout/DashboardLayout"
-// Removed the import of Order from "@/types" due to the error
+import { Order } from 'g:/codecPOS PROJECT/codecPOS_web/src/types/order'; // Ensure this import matches the expected Order type
 
 export default function OrdersPage() {
   const [view, setView] = useState<"list" | "add" | "details">("list")
-  const [selectedOrder, setSelectedOrder] = useState<any | null>(null)
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
 
-  const handleOrderClick = (order: any) => {
+  const handleOrderClick = (order: Order) => { // Use the Order type
     setSelectedOrder(order)
     setView("details")
   }

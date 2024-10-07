@@ -4,6 +4,7 @@ import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts'
 import { DollarSign, ShoppingCart, Package, CreditCard, ChevronDown } from 'lucide-react'
+import Image from 'next/image'
 
 const weeklySalesData = [
   { day: 'Mon', sales: 320 },
@@ -268,7 +269,13 @@ export function Dashboard() {
             <div className="space-y-4">
               {topProducts.map((product, index) => (
                 <div key={index} className="flex items-center">
-                  <img src={product.image} alt={product.name} className="w-10 h-10 rounded mr-4" />
+                  <Image 
+                    src={product.image} 
+                    alt={product.name} 
+                    width={40} // Specify the width
+                    height={40} // Specify the height
+                    className="rounded mr-4" 
+                  />
                   <div className="flex-1">
                     <h3 className="font-medium">{product.name}</h3>
                     <p className="text-sm text-gray-500">{product.amount}</p>

@@ -18,11 +18,12 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
     if (totalPages <= maxVisiblePages) return pageNumbers
 
     const halfVisible = Math.floor(maxVisiblePages / 2)
-    let start = Math.max(currentPage - halfVisible, 1)
-    let end = Math.min(start + maxVisiblePages - 1, totalPages)
+    const start = Math.max(currentPage - halfVisible, 1) // Change 'let' to 'const'
+    const end = Math.min(start + maxVisiblePages - 1, totalPages) // Change 'let' to 'const'
 
     if (end - start + 1 < maxVisiblePages) {
-      start = Math.max(end - maxVisiblePages + 1, 1)
+      const newStart = Math.max(end - maxVisiblePages + 1, 1) // Change 'let' to 'const'
+      return pageNumbers.slice(newStart - 1, end) // Use 'newStart' instead of 'start'
     }
 
     return pageNumbers.slice(start - 1, end)

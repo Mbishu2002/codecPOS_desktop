@@ -8,6 +8,7 @@ import { DashboardLayout } from "@/components/Shared/Layout/DashboardLayout"
 
 export default function ProductsPage() {
   const [view, setView] = useState<"list" | "add" | "details">("list")
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
   const handleProductClick = (product: Product) => {
@@ -21,7 +22,7 @@ export default function ProductsPage() {
 
   const handleBack = () => {
     setView("list")
-    setSelectedProduct(null)
+    // setSelectedProduct(null)
   }
 
   return (

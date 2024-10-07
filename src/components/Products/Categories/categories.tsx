@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { ArrowLeft, Search, Plus, Edit, Trash2 } from "lucide-react"
+import Image from 'next/image';
 
 // Mock data for categories
 const initialCategories = [
@@ -134,7 +135,13 @@ const Categories = () => {
           {filteredCategories.map((category) => (
             <Card key={category.id}>
               <CardContent className="p-4">
-                <img src={category.image} alt={category.name} className="w-full h-40 object-cover mb-2 rounded" />
+                <Image 
+                  src={category.image} 
+                  alt={category.name} 
+                  width={100} // Specify the width
+                  height={100} // Specify the height
+                  className="w-full h-40 object-cover mb-2 rounded" 
+                />
                 <h3 className="font-semibold text-lg">{category.name}</h3>
                 <p className="text-sm text-gray-500">{category.itemCount} items</p>
                 <div className="flex justify-end mt-2">
