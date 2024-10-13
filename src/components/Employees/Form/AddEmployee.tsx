@@ -7,12 +7,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChevronLeft } from "lucide-react"
 import { roles, shops } from "../Lib/constants"
-import { Employee } from "@/app/employees/page"; // Adjust the import path as necessary
+import { Employee } from "@/types/employee"; // Ensure this import matches the expected Employee type
 
 interface AddEditEmployeeProps {
+  employee?: Employee | null; // Assuming employee can be null
   onBack: () => void;
-  onSave: (employee: Employee) => void; // Ensure this matches the Employee type
-  employee?: Employee; // Ensure this matches the Employee type
+  onSave: (employee: Employee) => void;
+  isEdit: boolean; // Required property
 }
 
 export function AddEditEmployee({ employee, onBack, onSave, isEdit }: AddEditEmployeeProps) {
@@ -49,7 +50,7 @@ export function AddEditEmployee({ employee, onBack, onSave, isEdit }: AddEditEmp
         <h1 className="text-2xl font-semibold text-gray-800">
           {isEdit ? "Edit Employee" : "Add Employee"}
         </h1>
-        <div>
+        <div className="flex space-x-2">
           <Button variant="outline" className="mr-2" onClick={onBack}>Cancel</Button>
           <Button className="bg-[#2D70FD]" onClick={handleSubmit}>Save</Button>
         </div>
@@ -59,9 +60,9 @@ export function AddEditEmployee({ employee, onBack, onSave, isEdit }: AddEditEmp
           <CardTitle>Employee Information</CardTitle>
           <p className="text-sm text-gray-500">Most important information about the employee</p>
         </CardHeader>
-        <CardContent>
+        <CardContent className="max-h-[400px] overflow-y-auto"> {/* Added scrollable area */}
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="text-sm font-medium text-gray-500">First Name</label>
                 <Input name="firstName" value={formData.firstName} onChange={handleChange} />

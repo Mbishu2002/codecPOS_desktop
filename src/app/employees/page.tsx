@@ -1,18 +1,11 @@
 "use client"
 
+import { Employee } from "@/types/employee"; // Ensure this import matches the expected Employee type
 import { useState } from "react"
 import { EmployeeList } from "@/components/Employees/List/EmployeeList"
 import { AddEditEmployee } from "@/components/Employees/Form/AddEmployee"
 import { EmployeeDetails } from "@/components/Employees/Details/EmployeeDetails"
 import { DashboardLayout } from "@/components/Shared/Layout/DashboardLayout"
-
-export interface Employee {
-  id: string;
-  name: string; // Ensure this property exists
-  phone: string;
-  role: string;
-  email: string;
-}
 
 export default function EmployeesPage() {
   const [view, setView] = useState<"list" | "add" | "edit" | "details">("list")
@@ -58,7 +51,8 @@ export default function EmployeesPage() {
           <AddEditEmployee
             onBack={handleBack} 
             onSave={handleSaveEmployee}
-            employee={view === "edit" ? selectedEmployee || undefined : undefined} // Updated line
+            employee={view === "edit" ? selectedEmployee || undefined : undefined} // Pass employee
+            isEdit={view === "edit"} // Pass isEdit based on the current view
           />
         )}
         {view === "details" && selectedEmployee && (

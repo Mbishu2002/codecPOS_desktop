@@ -246,7 +246,7 @@ export function Pos() {
               <h3 className="font-semibold mb-2">Payment Type</h3>
               <Select value={paymentType} onValueChange={setPaymentType}>
                 <SelectTrigger>
-                  <SelectValue />
+                  <SelectValue placeholder="Select Payment Type" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="CASH">CASH</SelectItem>

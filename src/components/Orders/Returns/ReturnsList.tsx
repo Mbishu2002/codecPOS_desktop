@@ -180,50 +180,52 @@ const Returns = () => {
             />
           </div>
         </div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[50px]"></TableHead>
-              <TableHead>Return ID</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Customer Name</TableHead>
-              <TableHead>Reason</TableHead>
-              <TableHead className="w-[100px]">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {currentReturns.map((returnItem) => (
-              <TableRow key={returnItem.id}>
-                <TableCell>
-                  <Checkbox
-                    checked={selectedReturns.includes(returnItem.id)}
-                    onCheckedChange={() => handleCheckboxChange(returnItem.id)}
-                  />
-                </TableCell>
-                <TableCell>{returnItem.id}</TableCell>
-                <TableCell>{returnItem.date}</TableCell>
-                <TableCell>
-                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(returnItem.status)}`}>
-                    {returnItem.status}
-                  </span>
-                </TableCell>
-                <TableCell>{returnItem.customerName}</TableCell>
-                <TableCell>{returnItem.reason}</TableCell>
-                <TableCell>
-                  <div className="flex items-center space-x-2">
-                    <Button variant="ghost" size="icon">
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon">
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </TableCell>
+        <div className="overflow-x-auto"> {/* Added scrollable area for the table */}
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[50px]"></TableHead>
+                <TableHead>Return ID</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Customer Name</TableHead>
+                <TableHead>Reason</TableHead>
+                <TableHead className="w-[100px]">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {currentReturns.map((returnItem) => (
+                <TableRow key={returnItem.id}>
+                  <TableCell>
+                    <Checkbox
+                      checked={selectedReturns.includes(returnItem.id)}
+                      onCheckedChange={() => handleCheckboxChange(returnItem.id)}
+                    />
+                  </TableCell>
+                  <TableCell>{returnItem.id}</TableCell>
+                  <TableCell>{returnItem.date}</TableCell>
+                  <TableCell>
+                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(returnItem.status)}`}>
+                      {returnItem.status}
+                    </span>
+                  </TableCell>
+                  <TableCell>{returnItem.customerName}</TableCell>
+                  <TableCell>{returnItem.reason}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center space-x-2">
+                      <Button variant="ghost" size="icon">
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon">
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
         <div className="flex items-center justify-between mt-4">
           <Button
             variant="outline"

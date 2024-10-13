@@ -62,15 +62,11 @@ export function AddInventory() {
   const filteredSuppliers = suppliers.filter(supplier =>
     supplier.name.toLowerCase().includes(supplierSearchTerm.toLowerCase())
   )
-  /* eslint-disable @typescript-eslint/no-unused-vars */
+
   const handleAddInventory = () => {
     // Here you would typically send the data to your backend
     console.log({
-        /* eslint-disable @typescript-eslint/no-unused-vars */
       product: selectedProduct,
-        /* eslint-disable @typescript-eslint/no-unused-vars */
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-
       supplier: selectedSupplier,
       purchaseDate,
       quantity,
@@ -106,7 +102,6 @@ export function AddInventory() {
             </div>
             
             {searchTerm && (
-                /* eslint-disable @typescript-eslint/no-unused-vars */
               <Select onValueChange={(value) => setSelectedProduct(JSON.parse(value))}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select a product" />
@@ -151,8 +146,7 @@ export function AddInventory() {
             )}
           </div>
 
-          {   /* eslint-disable @typescript-eslint/no-unused-vars */
- selectedProduct && !selectedProduct?.image && (
+          {selectedProduct && !selectedProduct?.image && (
             <div className="space-y-2">
               <Label htmlFor="product-image">Product Image</Label>
               <div className="flex items-center space-x-2">
@@ -250,7 +244,7 @@ export function AddInventory() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button onClick={handleAddInventory}>Add Inventory</Button>
+          <Button onClick={handleAddInventory} className="w-full">Add Inventory</Button>
         </CardFooter>
       </Card>
     </div>

@@ -26,7 +26,7 @@ export function AddOrder({ onBack }: AddOrderProps) {
         <CardHeader>
           <CardTitle>Order Information</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="max-h-[400px] overflow-y-auto"> {/* Added scrollable area */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-medium text-gray-500">Customer</label>

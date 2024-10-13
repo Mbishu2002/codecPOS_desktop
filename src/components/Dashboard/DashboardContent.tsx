@@ -50,7 +50,7 @@ const topCustomers = [
 
 const topProducts = [
   { name: 'Men White T-Shirt', amount: '11,456 XAF', unitsSold: 195, image: '/placeholder.svg?height=40&width=40' },
-  { name: 'Wome White T-Shirt', amount: '11,456 XAF', unitsSold: 146, image: '/placeholder.svg?height=40&width=40' },
+  { name: 'Women White T-Shirt', amount: '11,456 XAF', unitsSold: 146, image: '/placeholder.svg?height=40&width=40' },
   { name: 'Men Grey Hoodie', amount: '11,456 XAF', unitsSold: 110, image: '/placeholder.svg?height=40&width=40' },
   { name: 'Women Red T-Shirt', amount: '11,456 XAF', unitsSold: 87, image: '/placeholder.svg?height=40&width=40' },
 ]
@@ -96,7 +96,7 @@ const formatNumber = (num: number): string => {
 
 export function Dashboard() {
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
+    <div className="p-4 md:p-8 bg-gray-100 min-h-screen">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <Card>
           <CardContent className="flex items-center p-6">
@@ -329,7 +329,7 @@ export function Dashboard() {
             <div className="mb-4">
               <h4 className="text-2xl font-bold">{formatNumber(1259)}</h4>
               <p className="text-sm text-gray-500">Items Sold</p>
-              <h4 className="text-2xl font-bold mt-2">{formatNumber(2000000)}XAF</h4>
+              <h4 className="text-2xl font-bold mt-2">{formatNumber(2000000)} XAF</h4>
               <p className="text-sm text-gray-500">Revenue</p>
             </div>
             <ResponsiveContainer width="100%" height={150}>

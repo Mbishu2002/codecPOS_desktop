@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/table"
 
 export function OrderDetails({ orderId }: { orderId: string }) {
-  // In a real application, you would fetch the order details based on the ID
   const order = {
     id: orderId,
     customer: "John CYRIL",
@@ -46,26 +45,28 @@ export function OrderDetails({ orderId }: { orderId: string }) {
         </div>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Item Name</TableHead>
-            <TableHead>Quantity</TableHead>
-            <TableHead>Price Per Item</TableHead>
-            <TableHead className="text-right">Total Price</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {order.items.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.quantity}</TableCell>
-              <TableCell>{item.price}</TableCell>
-              <TableCell className="text-right">{item.total}</TableCell>
+      <div className="overflow-y-auto max-h-[400px]"> {/* Added scrollable area */}
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Item Name</TableHead>
+              <TableHead>Quantity</TableHead>
+              <TableHead>Price Per Item</TableHead>
+              <TableHead className="text-right">Total Price</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {order.items.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.quantity}</TableCell>
+                <TableCell>{item.price}</TableCell>
+                <TableCell className="text-right">{item.total}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
 
       <div className="mt-6 flex justify-between">
         <div>

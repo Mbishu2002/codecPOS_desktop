@@ -42,8 +42,7 @@ interface EmployeeListProps {
 }
 
 export function EmployeeList({ onEmployeeClick, onAddEmployee, onEditEmployee }: EmployeeListProps) {
-  const [ /* eslint-disable @typescript-eslint/no-unused-vars */
-     selectedEmployees, setSelectedEmployees] = useState<string[]>([])
+  const [selectedEmployees, setSelectedEmployees] = useState<string[]>([])
 
   const handleEmployeeClick = (employee: Employee) => {
     onEmployeeClick(employee)
@@ -69,7 +68,7 @@ export function EmployeeList({ onEmployeeClick, onAddEmployee, onEditEmployee }:
 
   return (
     <>
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold text-gray-800">Employees</h1>
         <div className="space-x-2">
           <Button variant="outline" className="text-[#2D70FD] border-[#2D70FD]">Export</Button>
@@ -78,12 +77,12 @@ export function EmployeeList({ onEmployeeClick, onAddEmployee, onEditEmployee }:
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>All Employee</CardTitle>
+          <CardTitle>All Employees</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="flex justify-between mb-4">
-            <Select>
-              <SelectTrigger className="w-[180px]">
+        <CardContent className="max-h-[400px] overflow-y-auto"> {/* Added scrollable area */}
+          <div className="flex flex-col md:flex-row justify-between mb-4">
+            <Select className="w-full md:w-[180px] mb-2 md:mb-0">
+              <SelectTrigger>
                 <SelectValue placeholder="Filter Role" />
               </SelectTrigger>
               <SelectContent>
@@ -93,9 +92,9 @@ export function EmployeeList({ onEmployeeClick, onAddEmployee, onEditEmployee }:
                 ))}
               </SelectContent>
             </Select>
-            <div className="relative">
+            <div className="relative w-full md:w-[300px]">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
-              <Input placeholder="Search..." className="pl-8 w-[300px]" />
+              <Input placeholder="Search..." className="pl-8" />
             </div>
           </div>
           <div className="overflow-x-auto">

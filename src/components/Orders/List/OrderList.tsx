@@ -85,7 +85,7 @@ export const OrderList: React.FC<OrderListProps> = ({ onOrderClick, onAddOrder }
     <div className="container mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Orders</h1>
-        <div className="space-x-2">
+        <div className="flex space-x-2">
           <Button variant="outline">Export</Button>
           <Button onClick={onAddOrder}>+ Add Order</Button>
         </div>
@@ -138,7 +138,7 @@ export const OrderList: React.FC<OrderListProps> = ({ onOrderClick, onAddOrder }
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
+      <div className="bg-white rounded-lg shadow overflow-y-auto max-h-[400px]"> {/* Added scrollable area */}
         <Table>
           <TableHeader>
             <TableRow>

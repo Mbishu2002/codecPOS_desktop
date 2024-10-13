@@ -71,7 +71,7 @@ export function EmployeeDetails({ employee, onBack }: EmployeeDetailsProps) {
           <CardHeader>
             <CardTitle>Employee Activities and Performance</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="max-h-[400px] overflow-y-auto">
             <Table>
               <TableHeader>
                 <TableRow>

@@ -12,13 +12,13 @@ import Link from 'next/link'
 
 export function Register() {
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <div className="flex-1 relative overflow-hidden p-8">
+    <div className="flex flex-col min-h-screen bg-gray-50 md:flex-row">
+      <div className="flex-1 relative overflow-hidden p-8 md:p-4">
         <div className="absolute top-4 left-4">
           <Image src="/assets/images/salesbox-logo.svg" alt="SalesBox Logo" width={120} height={40} />
         </div>
-        <div className="grid grid-cols-2 gap-8 mt-8">
-          <Card className="w-[168px] h-[201px]" style={{ position: 'absolute', left: '30px', top: '100px' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+          <Card className="w-full h-[201px] md:w-[168px]" style={{ position: 'relative' }}>
             <CardContent className="p-4">
               <div className="flex flex-col gap-1 mb-4">
                 <div className="text-2xl font-bold">24.6k <span className="text-sm text-green-500">+38%</span></div>
@@ -63,13 +63,13 @@ export function Register() {
           alt="3D Character"
           width={2000}
           height={2000}
-          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mx-10 my-10"
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mx-10 my-10 hidden md:block"
         />
       </div>
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="flex-1 flex items-center justify-center p-4 md:p-8">
         <div className="w-full max-w-md">
-          <h1 className="text-3xl font-bold mb-2">Adventure starts here 🚀</h1>
-          <p className="text-gray-500 mb-8">Make your app management easy and fun!</p>
+          <h1 className="text-2xl font-bold mb-2 md:text-3xl">Adventure starts here 🚀</h1>
+          <p className="text-gray-500 mb-4 md:mb-8">Make your app management easy and fun!</p>
           <form className="space-y-4">
             <div>
               <Label htmlFor="username">Username</Label>
