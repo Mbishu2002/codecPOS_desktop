@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from "@/lib/utils"
@@ -85,6 +85,22 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [openDropdowns, setOpenDropdowns] = useState<{ [key: string]: boolean }>({})
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024)
+      if (window.innerWidth < 1024) {
+        setSidebarOpen(false)
+      } else {
+        setSidebarOpen(true)
+      }
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
   const toggleDropdown = (name: string) => {
@@ -97,7 +113,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       <aside
         className={cn(
           "bg-white text-gray-700 flex flex-col transition-all duration-300 ease-in-out",
-          sidebarOpen ? "w-64" : "w-20"
+          sidebarOpen ? "w-64" : "w-0 lg:w-20"
         )}
       >
         <div className="flex items-center justify-between h-16 px-4 border-b">
@@ -109,14 +125,6 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           ) : (
             <Package className="h-6 w-6 text-blue-600 mx-auto" />
           )}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden"
-            onClick={toggleSidebar}
-          >
-            <Menu className="h-6 w-6" />
-          </Button>
         </div>
         <nav className="flex-1 overflow-y-auto py-4">
           <ul className="space-y-1 px-3">
@@ -202,20 +210,22 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             </ul>
           </div>
         </nav>
-        <div className="border-t p-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleSidebar}
-            className="mx-auto"
-          >
-            {sidebarOpen ? (
-              <ChevronLeft className="h-5 w-5" />
-            ) : (
-              <ChevronRight className="h-5 w-5" />
-            )}
-          </Button>
-        </div>
+        {!isMobile && (
+          <div className="border-t p-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleSidebar}
+              className="mx-auto"
+            >
+              {sidebarOpen ? (
+                <ChevronLeft className="h-5 w-5" />
+              ) : (
+                <ChevronRight className="h-5 w-5" />
+              )}
+            </Button>
+          </div>
+        )}
       </aside>
 
       {/* Main content */}
@@ -226,7 +236,6 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden"
               onClick={toggleSidebar}
             >
               <Menu className="h-6 w-6" />

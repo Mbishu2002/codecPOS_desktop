@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 // Removed unused import
 import { Label } from "@/components/ui/label"
-import { ChevronUp, EyeIcon } from "lucide-react"
+import { ArrowUpIcon,ChevronUp, EyeIcon, ChevronDown } from "lucide-react"
 import Link from 'next/link'
 
 export function Register() {
@@ -17,8 +17,8 @@ export function Register() {
         <div className="absolute top-4 left-4">
           <Image src="/assets/images/salesbox-logo.svg" alt="SalesBox Logo" width={120} height={40} />
         </div>
-        <div className="grid grid-cols-2 gap-8 mt-8">
-          <Card className="w-[168px] h-[201px]" style={{ position: 'absolute', left: '30px', top: '100px' }}>
+        <div className="hidden lg:block absolute top-[406px] left-[167px]">
+          <Card className="w-[168px] h-[201px]">
             <CardContent className="p-4">
               <div className="flex flex-col gap-1 mb-4">
                 <div className="text-2xl font-bold">24.6k <span className="text-sm text-green-500">+38%</span></div>
@@ -35,8 +35,29 @@ export function Register() {
             </CardContent>
           </Card>
         </div>
-        <div className="mt-8">
-          <Card className="w-[262px] h-[80px]" style={{ position: 'absolute', left: '635px', top: '606px' }}>
+        <div className="hidden lg:block absolute top-20 right-10">
+          <Card className="w-[166px] h-[210px] shadow-lg rounded-lg">
+            <CardContent className="p-4">
+              <div className="flex flex-col mb-2">
+                <div className="flex items-center  mr-2">
+                  <svg width="41" height="40" viewBox="0 0 41 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.578857" width="40" height="40" rx="8" fill="#FDB528" />
+                    <rect x="0.578857" width="40" height="40" rx="8" fill="white" fill-opacity="0.88" />
+                    <path d="M28.5789 14H26.3989C26.5089 13.69 26.5789 13.35 26.5789 13C26.5789 11.34 25.2389 10 23.5789 10C22.5289 10 21.6189 10.54 21.0789 11.35L20.5789 12.02L20.0789 11.34C19.5389 10.54 18.6289 10 17.5789 10C15.9189 10 14.5789 11.34 14.5789 13C14.5789 13.35 14.6489 13.69 14.7589 14H12.5789C11.4689 14 10.5889 14.89 10.5889 16L10.5789 27C10.5789 28.11 11.4689 29 12.5789 29H28.5789C29.6889 29 30.5789 28.11 30.5789 27V16C30.5789 14.89 29.6889 14 28.5789 14ZM23.5789 12C24.1289 12 24.5789 12.45 24.5789 13C24.5789 13.55 24.1289 14 23.5789 14C23.0289 14 22.5789 13.55 22.5789 13C22.5789 12.45 23.0289 12 23.5789 12ZM17.5789 12C18.1289 12 18.5789 12.45 18.5789 13C18.5789 13.55 18.1289 14 17.5789 14C17.0289 14 16.5789 13.55 16.5789 13C16.5789 12.45 17.0289 12 17.5789 12ZM28.5789 27H12.5789V25H28.5789V27ZM28.5789 22H12.5789V16H17.6589L15.5789 18.83L17.1989 20L20.5789 15.4L23.9589 20L25.5789 18.83L23.4989 16H28.5789V22Z" fill="#FDB528" />
+                  </svg>
+                  <div className="text-sm text-red-500 flex items-center ml-8">-18% <ChevronDown className="w-4 h-4 ml-1" /></div>
+                </div>
+                <div className="flex flex-col gap-1 mb-4 mt-4">
+                  <div className="text-2xl font-bold">$89.34k</div>
+                  <span className="text-sm text-gray-500">Total Profit</span>
+                </div>
+                <div className="text-sm text-gray-500 bg-gray-100 rounded-full px-2 py-1 text-center mb-4">Last One Year</div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        <div className="hidden lg:block absolute bottom-20 right-10">
+          <Card className="w-[262px] h-[80px]">
             <CardContent className="p-4">
               <div className="flex items-center">
                 <div className="mr-4">
@@ -61,12 +82,12 @@ export function Register() {
         <Image
           src="/assets/images/register.svg"
           alt="3D Character"
-          width={2000}
-          height={2000}
-          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mx-10 my-10"
+          width={1000}
+          height={800}
+          className="hidden lg:block absolute bottom-0 right-0 max-w-full max-h-full object-contain mb-10 mr-0"
         />
       </div>
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-8 max-w-lg mx-auto bg-white">
         <div className="w-full max-w-md">
           <h1 className="text-3xl font-bold mb-2">Adventure starts here 🚀</h1>
           <p className="text-gray-500 mb-8">Make your app management easy and fun!</p>

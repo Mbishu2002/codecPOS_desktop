@@ -21,12 +21,12 @@ export function Login() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <div className="flex-1 relative overflow-hidden">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100">
+      <div className="flex-1 relative overflow-hidden p-4 lg:p-0">
         <div className="absolute top-4 left-4">
           <Image src="/assets/images/salesbox-logo.svg" alt="SalesBox Logo" width={120} height={40} />
         </div>
-        <div className="absolute top-20 left-10">
+        <div className="hidden lg:block absolute top-20 left-10">
           <Card className="w-64">
             <CardContent className="p-4">
               <div className="text-sm text-gray-500">Total Revenue</div>
@@ -34,15 +34,14 @@ export function Login() {
                 100K XAF
                 <ArrowUpIcon className="w-4 h-4 text-green-500 ml-2" />
                 <svg width="57" height="56" viewBox="0 0 57 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="28.1456" cy="28" r="28" fill="#ECF2FF"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M28.1456 19C28.6979 19 29.1456 19.4477 29.1456 20L29.1464 20.0903C31.3393 20.4914 33.035 22.1853 33.1404 24.2915L33.1456 24.5H31.1456C31.1456 23.4338 30.3235 22.491 29.147 22.1428L29.1464 27.0903C31.4112 27.5046 33.1456 29.2978 33.1456 31.5C33.1456 33.7022 31.4112 35.4954 29.1464 35.9097L29.1456 36C29.1456 36.5523 28.6979 37 28.1456 37C27.5933 37 27.1456 36.5523 27.1456 36L27.1458 35.9099C24.9525 35.5091 23.2563 33.815 23.1508 31.7085L23.1456 31.5H25.1456C25.1456 32.5665 25.9682 33.5095 27.1452 33.8575L27.1458 28.9099C24.8806 28.4959 23.1456 26.7025 23.1456 24.5C23.1456 22.2975 24.8806 20.5041 27.1458 20.0901L27.1456 20C27.1456 19.4477 27.5933 19 28.1456 19ZM29.1469 29.1428L29.147 33.8572C30.3235 33.509 31.1456 32.5662 31.1456 31.5C31.1456 30.4337 30.3234 29.491 29.1469 29.1428ZM25.1456 24.5C25.1456 25.5666 25.9683 26.5096 27.1454 26.8575L27.1452 22.1425C25.9682 22.4905 25.1456 23.4335 25.1456 24.5Z" fill="#1A7DC0"/>
-</svg>
-             
+                  <circle cx="28.1456" cy="28" r="28" fill="#ECF2FF"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M28.1456 19C28.6979 19 29.1456 19.4477 29.1456 20L29.1464 20.0903C31.3393 20.4914 33.035 22.1853 33.1404 24.2915L33.1456 24.5H31.1456C31.1456 23.4338 30.3235 22.491 29.147 22.1428L29.1464 27.0903C31.4112 27.5046 33.1456 29.2978 33.1456 31.5C33.1456 33.7022 31.4112 35.4954 29.1464 35.9097L29.1456 36C29.1456 36.5523 28.6979 37 28.1456 37C27.5933 37 27.1456 36.5523 27.1456 36L27.1458 35.9099C24.9525 35.5091 23.2563 33.815 23.1508 31.7085L23.1456 31.5H25.1456C25.1456 32.5665 25.9682 33.5095 27.1452 33.8575L27.1458 28.9099C24.8806 28.4959 23.1456 26.7025 23.1456 24.5C23.1456 22.2975 24.8806 20.5041 27.1458 20.0901L27.1456 20C27.1456 19.4477 27.5933 19 28.1456 19ZM29.1469 29.1428L29.147 33.8572C30.3235 33.509 31.1456 32.5662 31.1456 31.5C31.1456 30.4337 30.3234 29.491 29.1469 29.1428ZM25.1456 24.5C25.1456 25.5666 25.9683 26.5096 27.1454 26.8575L27.1452 22.1425C25.9682 22.4905 25.1456 23.4335 25.1456 24.5Z" fill="#1A7DC0"/>
+                </svg>
               </div>
             </CardContent>
           </Card>
         </div>
-        <div className="absolute top-20 right-10">
+        <div className="hidden lg:block absolute top-20 right-10">
           <Card className="w-64">
             <CardContent className="p-4">
               <div className="flex items-center">
@@ -60,7 +59,7 @@ export function Login() {
             </CardContent>
           </Card>
         </div>
-        <div className="absolute bottom-20 right-10">
+        <div className="hidden lg:block absolute bottom-20 right-10">
           <Card className="w-50">
             <CardContent className="p-4">
               <div className="text-2xl font-bold flex items-center">
@@ -69,17 +68,16 @@ export function Login() {
               </div>
               <div className="text-sm text-gray-500">Sessions</div>
               <div className="mt-2">
-              <svg width="129" height="93" viewBox="0 0 129 93" fill="none" xmlns="http://www.w3.org/2000/svg">
-<line x1="2.63391" y1="2.18557e-08" x2="2.63391" y2="93" stroke="#4C4E64" stroke-opacity="0.12" stroke-dasharray="6 6"/>
-<line x1="26.4606" y1="2.17903e-08" x2="26.4606" y2="93" stroke="#4C4E64" stroke-opacity="0.12" stroke-dasharray="6 6"/>
-<line x1="50.2872" y1="2.17903e-08" x2="50.2872" y2="93" stroke="#4C4E64" stroke-opacity="0.12" stroke-dasharray="6 6"/>
-<line x1="74.1139" y1="2.17903e-08" x2="74.1139" y2="93" stroke="#4C4E64" stroke-opacity="0.12" stroke-dasharray="6 6"/>
-<line x1="97.9406" y1="2.17903e-08" x2="97.9405" y2="93" stroke="#4C4E64" stroke-opacity="0.12" stroke-dasharray="6 6"/>
-<line x1="121.767" y1="2.17903e-08" x2="121.767" y2="93" stroke="#4C4E64" stroke-opacity="0.12" stroke-dasharray="6 6"/>
-<path d="M2.13391 90.9431L26.4188 55.4935L50.2454 83.2169L75.4466 36.8597L98.3569 64.5831L121.725 8.22729" stroke="#26C6F9" stroke-width="3" stroke-linecap="round"/>
-<circle cx="121.368" cy="10" r="5.5" fill="white" stroke="#26C6F9" stroke-width="3"/>
-</svg>
-
+                <svg width="129" height="93" viewBox="0 0 129 93" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="2.63391" y1="2.18557e-08" x2="2.63391" y2="93" stroke="#4C4E64" stroke-opacity="0.12" stroke-dasharray="6 6"/>
+                  <line x1="26.4606" y1="2.17903e-08" x2="26.4606" y2="93" stroke="#4C4E64" stroke-opacity="0.12" stroke-dasharray="6 6"/>
+                  <line x1="50.2872" y1="2.17903e-08" x2="50.2872" y2="93" stroke="#4C4E64" stroke-opacity="0.12" stroke-dasharray="6 6"/>
+                  <line x1="74.1139" y1="2.17903e-08" x2="74.1139" y2="93" stroke="#4C4E64" stroke-opacity="0.12" stroke-dasharray="6 6"/>
+                  <line x1="97.9406" y1="2.17903e-08" x2="97.9405" y2="93" stroke="#4C4E64" stroke-opacity="0.12" stroke-dasharray="6 6"/>
+                  <line x1="121.767" y1="2.17903e-08" x2="121.767" y2="93" stroke="#4C4E64" stroke-opacity="0.12" stroke-dasharray="6 6"/>
+                  <path d="M2.13391 90.9431L26.4188 55.4935L50.2454 83.2169L75.4466 36.8597L98.3569 64.5831L121.725 8.22729" stroke="#26C6F9" stroke-width="3" stroke-linecap="round"/>
+                  <circle cx="121.368" cy="10" r="5.5" fill="white" stroke="#26C6F9" stroke-width="3"/>
+                </svg>
               </div>
             </CardContent>
           </Card>
@@ -87,14 +85,14 @@ export function Login() {
         <Image
           src="/assets/images/login-image.svg"
           alt="3D Character"
-          width={2000}
-          height={2000}
-          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mx-10 my-10"
+          width={1000}
+          height={800}
+          className="hidden lg:block absolute bottom-0 right-0 max-w-full max-h-full object-contain mb-10 mr-0"
         />
       </div>
-      <div className="flex-1 flex items-center justify-center">
-        <div className="w-96">
-          <h1 className="text-3xl font-bold mb-2">Welcome to SaleBox! 👋</h1>
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-8 max-w-lg mx-auto bg-white">
+        <div className="w-full max-w-md">
+          <h1 className="text-2xl lg:text-3xl font-bold mb-2">Welcome to SaleBox! 👋</h1>
           <p className="text-gray-500 mb-8">Please sign-in to your account and start the adventure</p>
           <form className="space-y-4" onSubmit={handleLogin}>
             <div>
