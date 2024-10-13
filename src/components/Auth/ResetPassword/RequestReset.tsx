@@ -6,20 +6,21 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ArrowUpIcon, EyeIcon, LockIcon } from "lucide-react"
+import { ArrowUpIcon, EyeIcon, LockIcon, ChevronRight, ChartNoAxesColumnIcon } from "lucide-react"
 
 export function ResetPassword() {
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <div className="flex-1 relative overflow-hidden p-8">
-      <div className="absolute top-4 left-4">
-        <Image src="/assets/images/salesbox-logo.svg" alt="SalesBox Logo" width={120} height={40} />
+      <div className="flex-1 relative overflow-hidden p-8 hidden sm:block">
+        <div className="absolute top-4 left-4">
+          <Image src="/assets/images/salesbox-logo.svg" alt="SalesBox Logo" width={120} height={40} />
         </div>
-        <div className="grid grid-cols-2 gap-8">
-          <Card className="col-span-1">
+        <div className="hidden lg:block absolute top-60 left-60">
+          <Card className="w-[168.67px] h-auto bg-white rounded-[10px] shadow-[0_2px_10px_rgba(76,78,100,0.22)]">
             <CardContent className="p-6">
               <div className="text-2xl font-bold mb-2">$42.5k</div>
-              <div className="text-sm text-green-500 mb-4">+42% Overview</div>
+              <div className="text-sm text-green-500">+42%</div>
+              <div className="text-sm text-gray-500 mb-4">Overview</div>
               <div className="relative w-32 h-32">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-24 h-24 bg-blue-500 rounded-full"></div>
@@ -30,22 +31,29 @@ export function ResetPassword() {
               </div>
             </CardContent>
           </Card>
-          <Card className="col-span-1">
-            <CardContent className="p-6">
+          </div>
+          <div className="hidden lg:block absolute bottom-20 right-10">
+          <Card className="w-[280px] h-auto bg-white shadow-[0_2px_10px_rgba(76,78,100,0.22)] rounded-[10px]">
+            <CardContent className="p-4">
               <div className="flex items-center">
-                <svg
-                  className="w-6 h-6 text-yellow-500 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginRight: '10px',
+                  padding: '9px',
+                  gap: '10px',
+                  width: '40px',
+                  height: '40px',
+                  background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), #FDB528',
+                  borderRadius: '8px',
+                  flex: 'none',
+                  order: 0,
+                  flexGrow: 0
+                }}>
+                  <ChartNoAxesColumnIcon color="orange"/>
+                </div>
                 <div className="text-2xl font-bold">28. XAF</div>
                 <ArrowUpIcon className="w-4 h-4 text-green-500 ml-2" />
                 <span className="text-sm text-green-500 ml-1">18.2%</span>
@@ -53,17 +61,20 @@ export function ResetPassword() {
               <div className="text-sm text-gray-500 mt-1">Total Profit</div>
             </CardContent>
           </Card>
-        </div>
+          </div>
         <Image
           src="/assets/images/reset-image.svg"
           alt="3D Character"
-          width={2000}
-          height={2000}
-          className="absolute bottom-0 left-1/2 transform -translate-x-1/2"
+          width={1000}
+          height={800}
+          className="hidden lg:block absolute bottom-0 right-0 max-w-full max-h-full object-contain mb-10 mr-0"
         />
       </div>
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-8 max-w-lg mx-auto bg-white">
         <div className="w-full max-w-md">
+          <div className="mb-8 sm:hidden">
+            <Image src="/assets/images/salesbox-logo.svg" alt="SalesBox Logo" width={120} height={40} />
+          </div>
           <h1 className="text-3xl font-bold mb-2 flex items-center">
             Reset Password <LockIcon className="ml-2 w-6 h-6" />
           </h1>
@@ -89,7 +100,7 @@ export function ResetPassword() {
           </form>
           <div className="mt-6">
             <Link href="/login" className="text-blue-500 hover:underline flex items-center">
-              <ArrowUpIcon className="w-4 h-4 mr-2 transform rotate-180" />
+              <ChevronRight className="w-4 h-4 mr-2 transform rotate-180" />
               Back to login
             </Link>
           </div>
