@@ -138,54 +138,77 @@ export const OrderList: React.FC<OrderListProps> = ({ onOrderClick, onAddOrder }
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-y-auto max-h-[400px]"> {/* Added scrollable area */}
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[50px]"></TableHead>
-              <TableHead>Order</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Delivery Status</TableHead>
-              <TableHead>Amount Paid</TableHead>
-              <TableHead>Change Given</TableHead>
-              <TableHead>Payment status</TableHead>
-              <TableHead>Net Amount Paid</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {orders.map((order) => (
-              <TableRow key={order.id} onClick={() => onOrderClick(order)} className="cursor-pointer">
-                <TableCell>
-                  <Checkbox
-                    checked={isOrderSelected(order.id)}
-                    onCheckedChange={() => toggleOrderSelection(order.id)}
-                  />
-                </TableCell>
-                <TableCell className="font-medium">
-                  <Link href={`/orders/${order.id}`}>{order.id}</Link>
-                </TableCell>
-                <TableCell>{order.date}</TableCell>
-                <TableCell>
-                  <span className={`px-2 py-1 rounded-full text-xs font-semibold
-                    ${order.deliveryStatus === 'Delivered' ? 'bg-green-100 text-green-800' :
-                      order.deliveryStatus === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'}`}>
-                    {order.deliveryStatus}
-                  </span>
-                </TableCell>
-                <TableCell>{order.amountPaid}</TableCell>
-                <TableCell>{order.changeGiven}</TableCell>
-                <TableCell>
-                  <span className={`px-2 py-1 rounded-full text-xs font-semibold
-                    ${order.paymentStatus === 'Paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
-                    {order.paymentStatus}
-                  </span>
-                </TableCell>
-                <TableCell>{order.netAmountPaid}</TableCell>
+      <div className="hidden md:block">
+        <div className="bg-white rounded-lg shadow overflow-y-auto max-h-[400px]"> {/* Keep the card background for desktop */}
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[50px]"></TableHead>
+                <TableHead>Order</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Delivery Status</TableHead>
+                <TableHead>Amount Paid</TableHead>
+                <TableHead>Change Given</TableHead>
+                <TableHead>Payment status</TableHead>
+                <TableHead>Net Amount Paid</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {orders.map((order) => (
+                <TableRow key={order.id} onClick={() => onOrderClick(order)} className="cursor-pointer">
+                  <TableCell>
+                    <Checkbox
+                      checked={isOrderSelected(order.id)}
+                      onCheckedChange={() => toggleOrderSelection(order.id)}
+                    />
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    <Link href={`/orders/${order.id}`}>{order.id}</Link>
+                  </TableCell>
+                  <TableCell>{order.date}</TableCell>
+                  <TableCell>
+                    <span className={`inline-flex items-center px-1 py-1 rounded-full text-xs font-semibold
+                      ${order.deliveryStatus === 'Delivered' ? 'bg-green-100 text-green-800' :
+                        order.deliveryStatus === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'}`}>
+                      {order.deliveryStatus}
+                    </span>
+                  </TableCell>
+                  <TableCell>{order.amountPaid}</TableCell>
+                  <TableCell>{order.changeGiven}</TableCell>
+                  <TableCell>
+                    <span className={`px-2 py-1 rounded-full text-xs font-semibold
+                      ${order.paymentStatus === 'Paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                      {order.paymentStatus}
+                    </span>
+                  </TableCell>
+                  <TableCell>{order.netAmountPaid}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+      <div className="md:hidden">
+        {orders.map((order) => (
+          <div key={order.id} className="bg-white rounded-lg shadow mb-4 p-4 cursor-pointer" onClick={() => onOrderClick(order)}>
+            <div className="flex justify-between">
+              <div className="flex flex-col">
+                <h2 className="font-medium">{order.id}</h2>
+                <p className="text-sm text-gray-500">{order.date}</p>
+                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold mt-1
+                  ${order.deliveryStatus === 'Delivered' ? 'bg-green-100 text-green-800' :
+                    order.deliveryStatus === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                    'bg-red-100 text-red-800'}`}>
+                  {order.deliveryStatus}
+                </span>
+              </div>
+              <div className="flex items-center">
+                <span className="font-medium">{order.amountPaid}</span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       <DeleteConfirmationModal

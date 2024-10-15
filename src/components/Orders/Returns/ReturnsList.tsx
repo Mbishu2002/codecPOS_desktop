@@ -35,6 +35,8 @@ const Returns = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedReturns, setSelectedReturns] = useState([])
   const [isAddReturnOpen, setIsAddReturnOpen] = useState(false)
+  const [isDetailOpen, setIsDetailOpen] = useState(false)
+  const [selectedReturn, setSelectedReturn] = useState(null)
   const [newReturn, setNewReturn] = useState({ id: "", date: "", status: "", customerName: "", reason: "" })
 
   const itemsPerPage = 7
@@ -95,6 +97,11 @@ const Returns = () => {
       default:
         return 'bg-gray-100 text-gray-800'
     }
+  }
+
+  const openDetailModal = (returnItem) => {
+    setSelectedReturn(returnItem)
+    setIsDetailOpen(true)
   }
 
   return (
@@ -180,7 +187,7 @@ const Returns = () => {
             />
           </div>
         </div>
-        <div className="overflow-x-auto"> {/* Added scrollable area for the table */}
+        <div className="hidden md:block overflow-x-auto"> {/* Hide table on mobile */}
           <Table>
             <TableHeader>
               <TableRow>
@@ -202,7 +209,7 @@ const Returns = () => {
                       onCheckedChange={() => handleCheckboxChange(returnItem.id)}
                     />
                   </TableCell>
-                  <TableCell>{returnItem.id}</TableCell>
+                  <TableCell onClick={() => openDetailModal(returnItem)} className="cursor-pointer">{returnItem.id}</TableCell>
                   <TableCell>{returnItem.date}</TableCell>
                   <TableCell>
                     <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(returnItem.status)}`}>
@@ -226,36 +233,44 @@ const Returns = () => {
             </TableBody>
           </Table>
         </div>
-        <div className="flex items-center justify-between mt-4">
-          <Button
-            variant="outline"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Previous
-          </Button>
-          <div className="flex items-center gap-2">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <Button
-                key={page}
-                variant={currentPage === page ? "default" : "outline"}
-                onClick={() => handlePageChange(page)}
-              >
-                {page}
-              </Button>
-            ))}
-          </div>
-          <Button
-            variant="outline"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            Next
-            <ArrowRight className="h-4 w-4 ml-2" />
-          </Button>
+        {/* Mobile View */}
+        <div className="md:hidden">
+          {currentReturns.map((returnItem) => (
+            <div key={returnItem.id} className="bg-white rounded-lg shadow mb-4 p-4 cursor-pointer" onClick={() => openDetailModal(returnItem)}>
+              <div className="flex justify-between">
+                <div className="flex flex-col">
+                  <h2 className="font-medium">{returnItem.id}</h2>
+                  <p className="text-sm text-gray-500">{returnItem.date}</p>
+                  <span className={`inline-flex items-center px-1 py-1 rounded-full text-xs font-semibold ${getStatusColor(returnItem.status)}`}>
+                    {returnItem.status}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <span className="font-medium">{returnItem.customerName}</span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
+
+      {/* Return Detail Modal */}
+      <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Return Details</DialogTitle>
+          </DialogHeader>
+          {selectedReturn && (
+            <div>
+              <p><strong>Return ID:</strong> {selectedReturn.id}</p>
+              <p><strong>Date:</strong> {selectedReturn.date}</p>
+              <p><strong>Status:</strong> <span className={getStatusColor(selectedReturn.status)}>{selectedReturn.status}</span></p>
+              <p><strong>Customer Name:</strong> {selectedReturn.customerName}</p>
+              <p><strong>Reason:</strong> {selectedReturn.reason}</p>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
