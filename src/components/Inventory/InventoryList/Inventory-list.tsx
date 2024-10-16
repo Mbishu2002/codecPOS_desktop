@@ -21,8 +21,9 @@ import {
 } from "@/components/ui/table"
 import { Checkbox } from "@/components/ui/checkbox"
 import { PenIcon, TrashIcon, FileDown, Plus, Search } from 'lucide-react'
-import {DeleteConfirmationModal} from '@/components/ui/Modal/delete-confrimation-modal'
+import { DeleteConfirmationModal } from '@/components/ui/Modal/delete-confrimation-modal'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 type InventoryItem = {
   id: string
@@ -46,6 +47,7 @@ export function InventoryList() {
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [itemToDelete, setItemToDelete] = useState<string | null>(null)
+  const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null) // State for the selected item for overlay
 
   const toggleItemSelection = (itemId: string) => {
     setSelectedItems(prev =>
@@ -73,10 +75,18 @@ export function InventoryList() {
     }
   }
 
+  const openOverlay = (item: InventoryItem) => {
+    setSelectedItem(item);
+  }
+
+  const closeOverlay = () => {
+    setSelectedItem(null);
+  }
+
   return (
-    <Card className="container mx-auto p-6">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-2xl font-bold">Inventory List</CardTitle>
+    <div className="container mx-auto p-6">
+      <div className="flex flex-col md:flex-row items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">Inventory List</h1>
         <div className="flex space-x-2">
           <Button variant="outline">
             <FileDown className="mr-2 h-4 w-4" />
@@ -87,41 +97,43 @@ export function InventoryList() {
             Add Item
           </Button>
         </div>
-      </CardHeader>
-      <CardContent>
-        <div className="flex justify-between items-center mb-4">
-          <div className="w-48">
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Filter" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Items</SelectItem>
-                <SelectItem value="in-stock">In Stock</SelectItem>
-                <SelectItem value="low-stock">Low Stock</SelectItem>
-                <SelectItem value="out-of-stock">Out of Stock</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="relative w-64">
-            <Input type="text" placeholder="Search..." className="pl-10" />
-            <Search className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          </div>
-          <div className="flex space-x-2">
-            <Button variant="outline" size="icon">
-              <PenIcon className="h-4 w-4" />
-            </Button>
-            <Button 
-              variant="outline" 
-              size="icon" 
-              onClick={handleDeleteClick}
-              disabled={selectedItems.length === 0}
-            >
-              <TrashIcon className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
+      </div>
 
+      <div className="flex justify-between items-center mb-4">
+        <div className="w-48">
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Filter" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Items</SelectItem>
+              <SelectItem value="in-stock">In Stock</SelectItem>
+              <SelectItem value="low-stock">Low Stock</SelectItem>
+              <SelectItem value="out-of-stock">Out of Stock</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="relative w-64">
+          <Input type="text" placeholder="Search..." className="pl-10" />
+          <Search className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        </div>
+        <div className="flex space-x-2">
+          <Button variant="outline" size="icon">
+            <PenIcon className="h-4 w-4" />
+          </Button>
+          <Button 
+            variant="outline" 
+            size="icon" 
+            onClick={handleDeleteClick}
+            disabled={selectedItems.length === 0}
+          >
+            <TrashIcon className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Desktop View */}
+      <div className="hidden md:block">
         <div className="rounded-md border">
           <Table>
             <TableHeader>
@@ -166,13 +178,52 @@ export function InventoryList() {
             </TableBody>
           </Table>
         </div>
-      </CardContent>
+      </div>
+
+      {/* Mobile View */}
+      <div className="md:hidden">
+        {inventory.map((item) => (
+          <Card key={item.id} className="mb-4 cursor-pointer w-full" onClick={() => openOverlay(item)}>
+            <CardContent className="flex flex-col p-4">
+              <div className="flex justify-between">
+                <span className="text-sm text-gray-500">SKU: {item.sku}</span>
+                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold
+                  ${item.status === 'In Stock' ? 'bg-green-100 text-green-800' :
+                    item.status === 'Low Stock' ? 'bg-yellow-100 text-yellow-800' :
+                    'bg-red-100 text-red-800'}`}>
+                  {item.status}
+                </span>
+              </div>
+              <div className="flex justify-between mt-2">
+                <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
+                <p className="text-sm text-gray-500">Total Value: {item.totalValue} XAF</p>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Overlay for additional item details */}
+      {selectedItem && (
+        <Dialog open={!!selectedItem} onOpenChange={closeOverlay}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{selectedItem.name}</DialogTitle>
+            </DialogHeader>
+            <p><strong>Category:</strong> {selectedItem.category}</p>
+            <p><strong>Unit Price:</strong> {selectedItem.unitPrice} XAF</p>
+            <p><strong>Quantity:</strong> {selectedItem.quantity}</p>
+            <p><strong>Total Value:</strong> {selectedItem.totalValue} XAF</p>
+            <Button onClick={closeOverlay}>Close</Button>
+          </DialogContent>
+        </Dialog>
+      )}
 
       <DeleteConfirmationModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDeleteConfirm}
       />
-    </Card>
+    </div>
   )
 }

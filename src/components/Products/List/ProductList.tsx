@@ -6,10 +6,11 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Checkbox } from "@/components/ui/checkbox"
-//import { Card, CardContent } from "@/components/ui/card"
 import { ListFilter, Pencil, Trash2 } from "lucide-react"
 import Image from 'next/image';
 import { Product } from "@/types/product"; // Ensure this matches the expected Product type
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Card, CardContent } from "@/components/ui/card"
 
 interface ProductListProps {
   onProductClick: (product: Product) => void;
@@ -36,25 +37,31 @@ const products = [
   { id: 17, name: 'Women Yoga Pants', category: 'Activewear', inventory: 70, price: '3,790 XAF', image: '/placeholder.svg', inStock: true },
   { id: 18, name: 'Men Formal Shirt', category: 'Shirts', inventory: 55, price: '4,290 XAF', image: '/placeholder.svg', inStock: true },
 ]
-  /* eslint-disable @typescript-eslint/no-unused-vars */
 
 export function ProductList({ onProductClick, onAddProduct }: ProductListProps) {
-  const [  /* eslint-disable @typescript-eslint/no-unused-vars */
-    selectedProducts, setSelectedProducts] = useState<number[]>([])
+  const [selectedProducts, setSelectedProducts] = useState<number[]>([])
   const [view, setView] = useState<'list' | 'grid'>('list')
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
-  const toggleProductSelection = (productId: number) => {   /* eslint-disable @typescript-eslint/no-unused-vars */
-
+  const toggleProductSelection = (productId: number) => {
     setSelectedProducts(prev => 
       prev.includes(productId) 
         ? prev.filter(id => id !== productId)
         : [...prev, productId]
     )
   }
-  /* eslint-disable @typescript-eslint/no-unused-vars */
+
   const isAllSelected = selectedProducts.length === products.length
-  const toggleAllSelection = () => { /* eslint-disable @typescript-eslint/no-unused-vars */
+  const toggleAllSelection = () => {
     setSelectedProducts(isAllSelected ? [] : products.map(p => p.id))
+  }
+
+  const openOverlay = (product: Product) => {
+    setSelectedProduct(product);
+  }
+
+  const closeOverlay = () => {
+    setSelectedProduct(null);
   }
 
   return (
@@ -141,6 +148,7 @@ export function ProductList({ onProductClick, onAddProduct }: ProductListProps) 
         </div>
       </div>
 
+      {/* Desktop View */}
       <div className="bg-white rounded-lg shadow overflow-x-auto">
         <Table>
           <TableHeader>
@@ -165,8 +173,7 @@ export function ProductList({ onProductClick, onAddProduct }: ProductListProps) 
               >
                 <TableCell>
                   <Checkbox 
-                    checked={ /* eslint-disable @typescript-eslint/no-unused-vars */
-                       selectedProducts.includes(product.id)}
+                    checked={selectedProducts.includes(product.id)}
                     onCheckedChange={() => toggleProductSelection(product.id)}
                   />
                 </TableCell>
@@ -192,6 +199,48 @@ export function ProductList({ onProductClick, onAddProduct }: ProductListProps) 
           </TableBody>
         </Table>
       </div>
+
+      {/* Mobile View */}
+      <div className="md:hidden">
+        {products.map((product) => (
+          <Card key={product.id} className="mb-4 cursor-pointer w-full" onClick={() => openOverlay(product)}>
+            <CardContent className="flex items-center justify-between p-4">
+              <div className="flex items-center">
+                <Image 
+                  src={product.image} 
+                  alt={product.name} 
+                  width={40} 
+                  height={40} 
+                  className="rounded mr-3" 
+                />
+                <div>
+                  <h2 className="font-medium">{product.name}</h2>
+                  <p className="text-gray-500">{product.category}</p>
+                </div>
+              </div>
+              <div className="flex flex-col items-end">
+                <span>{product.inventory} in stock</span>
+                <span>{product.price}</span>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Overlay for additional product details */}
+      {selectedProduct && (
+        <Dialog open={!!selectedProduct} onOpenChange={closeOverlay}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{selectedProduct.name}</DialogTitle>
+            </DialogHeader>
+            <p><strong>Category:</strong> {selectedProduct.category}</p>
+            <p><strong>Inventory:</strong> {selectedProduct.inventory}</p>
+            <p><strong>Price:</strong> {selectedProduct.price}</p>
+            <Button onClick={closeOverlay}>Close</Button>
+          </DialogContent>
+        </Dialog>
+      )}
     </>
   )
 }

@@ -115,6 +115,10 @@ export function CustomerList({ onCustomerClick, onAddCustomer }: CustomerListPro
                   <p className="text-gray-500">{customer.phone}</p>
                 </div>
               </div>
+              <div className="flex flex-col items-end">
+                <span>{customer.orders} Orders</span>
+                <span>{customer.spent}</span>
+              </div>
             </CardContent>
           </Card>
         ))}

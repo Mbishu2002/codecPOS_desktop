@@ -4,10 +4,16 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowLeft, ArrowRight, Search, Plus, Edit, Trash2 } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+
+// Function to get initials from a name
+const getInitials = (name: string) => {
+  return name.split(' ').map(word => word[0]).join('').toUpperCase();
+}
 
 // Mock data for suppliers
 const initialSuppliers = [
@@ -21,20 +27,10 @@ const Suppliers = () => {
   const [suppliers, setSuppliers] = useState(initialSuppliers)
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
-  const [selectedSuppliers, setSelectedSuppliers] = useState([])
-  const [isAddSupplierOpen, setIsAddSupplierOpen] = useState(false)
-  const [newSupplier, setNewSupplier] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    country: "",
-    address: "",
-    companyName: ""
-  })
-
   const itemsPerPage = 10
-  const indexOfLastItem = currentPage * itemsPerPage
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [newSupplier, setNewSupplier] = useState({ id: 0, name: "", phoneNumber: "", location: "", orders: 0, sales: "" })
+  const [isEditing, setIsEditing] = useState(false)
 
   const filteredSuppliers = suppliers.filter(supplier =>
     supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -42,44 +38,36 @@ const Suppliers = () => {
     supplier.location.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const currentSuppliers = filteredSuppliers.slice(indexOfFirstItem, indexOfLastItem)
-
+  const currentSuppliers = filteredSuppliers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
   const totalPages = Math.ceil(filteredSuppliers.length / itemsPerPage)
 
-  const handlePageChange = (pageNumber) => {
+  const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber)
   }
 
-  const handleCheckboxChange = (supplierId) => {
-    setSelectedSuppliers(prev =>
-      prev.includes(supplierId) ? prev.filter(id => id !== supplierId) : [...prev, supplierId]
-    )
-  }
-
   const handleAddSupplier = () => {
-    const fullName = `${newSupplier.firstName} ${newSupplier.lastName}`.trim()
-    const newSupplierEntry = {
-      id: suppliers.length + 1,
-      name: fullName,
-      phoneNumber: newSupplier.phoneNumber,
-      location: newSupplier.country,
-      orders: 0,
-      sales: "0 XAF"
+    if (isEditing) {
+      setSuppliers(suppliers.map(supplier => supplier.id === newSupplier.id ? newSupplier : supplier));
+    } else {
+      setSuppliers([...suppliers, { ...newSupplier, id: suppliers.length + 1 }]);
     }
-    setSuppliers([...suppliers, newSupplierEntry])
-    setIsAddSupplierOpen(false)
-    setNewSupplier({
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      country: "",
-      address: "",
-      companyName: ""
-    })
+    resetForm();
   }
 
-  const getInitials = (name) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase()
+  const handleEditSupplier = (supplier: any) => {
+    setNewSupplier(supplier);
+    setIsEditing(true);
+    setIsDialogOpen(true);
+  }
+
+  const handleDeleteSupplier = (id: number) => {
+    setSuppliers(suppliers.filter(supplier => supplier.id !== id));
+  }
+
+  const resetForm = () => {
+    setNewSupplier({ id: 0, name: "", phoneNumber: "", location: "", orders: 0, sales: "" });
+    setIsEditing(false);
+    setIsDialogOpen(false);
   }
 
   return (
@@ -87,104 +75,27 @@ const Suppliers = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Suppliers</h1>
         <div className="flex gap-2">
+          <Button variant="blue" onClick={() => setIsDialogOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" /> Add Supplier
+          </Button>
           <Button variant="outline">Export</Button>
-          <Dialog open={isAddSupplierOpen} onOpenChange={setIsAddSupplierOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="mr-2 h-4 w-4" /> Add Supplier
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Add Supplier</DialogTitle>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="firstName" className="text-right">
-                    First Name
-                  </Label>
-                  <Input
-                    id="firstName"
-                    value={newSupplier.firstName}
-                    onChange={(e) => setNewSupplier({ ...newSupplier, firstName: e.target.value })}
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="lastName" className="text-right">
-                    Last Name
-                  </Label>
-                  <Input
-                    id="lastName"
-                    value={newSupplier.lastName}
-                    onChange={(e) => setNewSupplier({ ...newSupplier, lastName: e.target.value })}
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="phoneNumber" className="text-right">
-                    Phone Number
-                  </Label>
-                  <Input
-                    id="phoneNumber"
-                    value={newSupplier.phoneNumber}
-                    onChange={(e) => setNewSupplier({ ...newSupplier, phoneNumber: e.target.value })}
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="country" className="text-right">
-                    Country
-                  </Label>
-                  <Input
-                    id="country"
-                    value={newSupplier.country}
-                    onChange={(e) => setNewSupplier({ ...newSupplier, country: e.target.value })}
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="address" className="text-right">
-                    Address
-                  </Label>
-                  <Input
-                    id="address"
-                    value={newSupplier.address}
-                    onChange={(e) => setNewSupplier({ ...newSupplier, address: e.target.value })}
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="companyName" className="text-right">
-                    Company Name
-                  </Label>
-                  <Input
-                    id="companyName"
-                    value={newSupplier.companyName}
-                    onChange={(e) => setNewSupplier({ ...newSupplier, companyName: e.target.value })}
-                    className="col-span-3"
-                  />
-                </div>
-              </div>
-              <Button onClick={handleAddSupplier}>Save</Button>
-            </DialogContent>
-          </Dialog>
         </div>
       </div>
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold mb-4">Those are your business partners</h2>
-        <div className="flex justify-between items-center mb-4">
-          <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-            <Input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-8"
-            />
-          </div>
-        </div>
+
+      {/* Search Box */}
+      <div className="mb-4 relative">
+        <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+        <Input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="pl-8"
+        />
+      </div>
+
+      {/* Desktop View */}
+      <div className="hidden md:block bg-white p-6 rounded-lg shadow">
         <Table>
           <TableHeader>
             <TableRow>
@@ -201,12 +112,9 @@ const Suppliers = () => {
             {currentSuppliers.map((supplier) => (
               <TableRow key={supplier.id}>
                 <TableCell>
-                  <Checkbox
-                    checked={selectedSuppliers.includes(supplier.id)}
-                    onCheckedChange={() => handleCheckboxChange(supplier.id)}
-                  />
+                  <Checkbox />
                 </TableCell>
-                <TableCell className="font-medium">
+                <TableCell>
                   <div className="flex items-center">
                     <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
                       <span className="text-blue-600 font-semibold">{getInitials(supplier.name)}</span>
@@ -220,10 +128,10 @@ const Suppliers = () => {
                 <TableCell>{supplier.sales}</TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-2">
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" onClick={() => handleEditSupplier(supplier)}>
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" onClick={() => handleDeleteSupplier(supplier.id)}>
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
@@ -232,36 +140,95 @@ const Suppliers = () => {
             ))}
           </TableBody>
         </Table>
-        <div className="flex items-center justify-between mt-4">
-          <Button
-            variant="outline"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Previous
-          </Button>
-          <div className="flex items-center gap-2">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <Button
-                key={page}
-                variant={currentPage === page ? "default" : "outline"}
-                onClick={() => handlePageChange(page)}
-              >
-                {page}
-              </Button>
-            ))}
-          </div>
-          <Button
-            variant="outline"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            Next
-            <ArrowRight className="h-4 w-4 ml-2" />
-          </Button>
-        </div>
       </div>
+
+      {/* Mobile View */}
+      <div className="md:hidden">
+        {suppliers.map((supplier) => (
+          <Card key={supplier.id} className="mb-4 cursor-pointer w-full" onClick={() => handleEditSupplier(supplier)}>
+            <CardContent className="flex items-center justify-between p-4">
+              <div className="flex items-center">
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                  <span className="text-blue-600 font-semibold">{getInitials(supplier.name)}</span>
+                </div>
+                <div>
+                  <h2 className="font-medium">{supplier.name}</h2>
+                  <p className="text-gray-500">{supplier.phoneNumber}</p>
+                </div>
+              </div>
+              <div className="flex flex-col items-end">
+                <span>{supplier.location}</span>
+                <span>{supplier.sales}</span>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Pagination */}
+      <div className="flex items-center justify-between mt-4">
+        <Button variant="outline" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+          <ArrowLeft className="h-4 w-4 mr-2" /> Previous
+        </Button>
+        <div className="flex items-center gap-2">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <Button key={page} variant={currentPage === page ? "default" : "outline"} onClick={() => handlePageChange(page)}>
+              {page}
+            </Button>
+          ))}
+        </div>
+        <Button variant="outline" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+          Next <ArrowRight className="h-4 w-4 ml-2" />
+        </Button>
+      </div>
+
+      {/* Add Supplier Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{isEditing ? "Edit Supplier" : "Add Supplier"}</DialogTitle>
+          </DialogHeader>
+          <Label>Name</Label>
+          <Input
+            type="text"
+            value={newSupplier.name}
+            onChange={(e) => setNewSupplier({ ...newSupplier, name: e.target.value })}
+            className="mb-4"
+          />
+          <Label>Phone Number</Label>
+          <Input
+            type="text"
+            value={newSupplier.phoneNumber}
+            onChange={(e) => setNewSupplier({ ...newSupplier, phoneNumber: e.target.value })}
+            className="mb-4"
+          />
+          <Label>Location</Label>
+          <Input
+            type="text"
+            value={newSupplier.location}
+            onChange={(e) => setNewSupplier({ ...newSupplier, location: e.target.value })}
+            className="mb-4"
+          />
+          <Label>Orders</Label>
+          <Input
+            type="number"
+            value={newSupplier.orders}
+            onChange={(e) => setNewSupplier({ ...newSupplier, orders: Number(e.target.value) })}
+            className="mb-4"
+          />
+          <Label>Sales</Label>
+          <Input
+            type="text"
+            value={newSupplier.sales}
+            onChange={(e) => setNewSupplier({ ...newSupplier, sales: e.target.value })}
+            className="mb-4"
+          />
+          <div className="flex justify-end">
+            <Button variant="outline" onClick={resetForm} className="mr-2">Cancel</Button>
+            <Button onClick={handleAddSupplier}>{isEditing ? "Update Supplier" : "Add Supplier"}</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
