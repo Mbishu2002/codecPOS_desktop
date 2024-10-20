@@ -1,21 +1,30 @@
 import '@/styles/globals.css'
-import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 
-const inter = Inter({ subsets: ['latin'] })
+// Correctly load the local font
+const myriadPro = localFont({
+  src: '../fonts/MyriadPro-Regular.ttf',
+  variable: '--font-myriad-pro',
+  display: 'swap',
+})
 
+// Metadata configuration
 export const metadata = {
   title: 'SalesBox',
   description: 'Manage your sales and inventory with ease',
 }
 
-export default function RootLayout({
-  children,
-}: {
+// Root layout component with proper TypeScript interface
+interface RootLayoutProps {
   children: React.ReactNode
-}) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${myriadPro.variable} font-sans antialiased`}>
+        {children}
+      </body>
     </html>
   )
 }

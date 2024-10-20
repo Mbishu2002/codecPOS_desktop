@@ -9,48 +9,89 @@ const __dirname = path.dirname(__filename);
 
 let mainWindow;
 
+function logDirectoryStructure(dir, level = 0) {
+    const items = fs.readdirSync(dir, { withFileTypes: true });
+    items.forEach(item => {
+        console.log('  '.repeat(level) + (item.isDirectory() ? '📁' : '📄') + ' ' + item.name);
+        if (item.isDirectory()) {
+            logDirectoryStructure(path.join(dir, item.name), level + 1);
+        }
+    });
+}
+
 const createWindow = () => {
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
-      webSecurity: false 
-    },
-  });
+    mainWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            nodeIntegration: false,
+            contextIsolation: true,
+            preload: path.join(__dirname, 'preload.js'),
+            webSecurity: false
+        },
+    });
 
-  const startUrl = process.env.ELECTRON_START_URL || url.format({
-    pathname: path.join(__dirname, '/../out/index.html'), 
-    protocol: 'file:',
-    slashes: true
-  });
-  
-  mainWindow.loadURL(startUrl);
+    const startUrl = process.env.ELECTRON_START_URL || url.format({
+        pathname: path.join(__dirname, '..', 'out', 'index.html'),
+        protocol: 'file:',
+        slashes: true
+    });
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
+    console.log(`Initial URL: ${startUrl}`);
+    mainWindow.loadURL(startUrl);
+
+    // In the createWindow function, after loading the initial URL
+    mainWindow.webContents.executeJavaScript(fs.readFileSync(path.join(__dirname, 'link-handler.js'), 'utf8'));
+
+    mainWindow.on('closed', () => {
+        mainWindow = null;
+    });
 };
 
-app.on('ready', createWindow);
+// Update the navigateTo function
+function navigateTo(pagePath) {
+    let fullPath;
+    if (pagePath === '' || pagePath === '/') {
+        fullPath = path.join(__dirname, '..', 'out', 'index.html');
+    } else {
+        fullPath = path.join(__dirname, '..', 'out', pagePath, 'index.html');
+    }
+    console.log(`Attempting to navigate to: ${fullPath}`);
+    if (fs.existsSync(fullPath)) {
+        console.log(`File exists, loading: ${fullPath}`);
+        return mainWindow.loadFile(fullPath);
+    } else {
+        console.error(`Page not found: ${fullPath}`);
+        return mainWindow.loadFile(path.join(__dirname, '..', 'out', '404', 'index.html'));
+    }
+}
+
+app.on('ready', () => {
+    const outDir = path.join(__dirname, '..', 'out');
+    console.log('Checking out directory structure:');
+    logDirectoryStructure(outDir);
+    
+    createWindow();
+});
 
 app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit();
+    if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('activate', function () {
-  if (mainWindow === null) createWindow();
+    if (mainWindow === null) createWindow();
 });
 
-// Modify this section to handle navigation
-ipcMain.on('navigate', (event, path) => {
-  const startUrl = process.env.ELECTRON_START_URL || url.format({
-    pathname: path.join(__dirname, '/../out/index.html'),
-    protocol: 'file:',
-    slashes: true
-  });
-  
-  mainWindow.loadURL(`${startUrl}#${path}`);
+// Add this IPC handler for navigation
+ipcMain.handle('navigate', async (event, pagePath) => {
+    return navigateTo(pagePath);
+});
+
+// Intercept all navigation events
+app.on('web-contents-created', (event, contents) => {
+    contents.on('will-navigate', (event, navigationUrl) => {
+        event.preventDefault();
+        const pagePath = new URL(navigationUrl).pathname;
+        navigateTo(pagePath);
+    });
 });

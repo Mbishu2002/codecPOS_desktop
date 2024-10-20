@@ -1,0 +1,17 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.codec.salesbox
+mac:
+  category: public.app-category.business
+files:
+  - filter:
+      - out/**/*
+      - electron/**/*
+      - assets/**/*
+extraResources:
+  - from: out
+    to: app/out
+    filter:
+      - '**/*'
+electronVersion: 28.3.3
