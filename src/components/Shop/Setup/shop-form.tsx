@@ -1,34 +1,50 @@
-'use client'
+'use client';
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { PlusCircle } from "lucide-react"
+import { useState, ChangeEvent } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PlusCircle } from "lucide-react";
 
-export function ShopForm({ shop, onSave, onCancel }) {
-  const [formData, setFormData] = useState(shop || {
+interface Shop {
+  id?: number; // Made optional to allow for new shops
+  name: string;
+  mobileNumber: string;
+  manager: string;
+  address: string;
+  city: string;
+  country: string;
+}
+
+interface ShopFormProps {
+  shop?: Shop; // Made optional to handle the case of creating a new shop
+  onSave: (shop: Shop) => void;
+  onCancel: () => void;
+}
+
+export function ShopForm({ shop, onSave, onCancel }: ShopFormProps) {
+  const [formData, setFormData] = useState<Shop>(shop || {
     name: "",
     mobileNumber: "",
     manager: "",
     address: "",
     city: "",
     country: "",
-  })
+  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
-  const handleSelectChange = (name, value) => {
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    onSave(formData)
-  }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSave(formData);
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -101,5 +117,5 @@ export function ShopForm({ shop, onSave, onCancel }) {
         <Button type="submit">Save</Button>
       </div>
     </form>
-  )
+  );
 }

@@ -1,5 +1,10 @@
-import { Login } from "@/components/Auth/Login/LoginForm";
+import { Dashboard } from '@/components/Dashboard/DashboardContent'
+import { DashboardLayout } from '@/components/Shared/Layout/DashboardLayout'
 
-export default function Home() {
-  return <Login />
+export default function DashboardPage() {
+  return (
+    <DashboardLayout>
+      <Dashboard />
+    </DashboardLayout>
+  )
 }

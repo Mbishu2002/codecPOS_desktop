@@ -52,11 +52,23 @@ const recentTransactions = [
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
 
-const StatCard = ({ title, value, icon: Icon, color, trend }) => (
+// Define an interface for the props
+interface StatCardProps {
+  title: string;
+  value: number | string;
+  icon: React.ComponentType;
+  color: string;
+  trend?: string;
+}
+
+// Use the interface in the component definition
+const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, color, trend }) => (
   <Card>
     <CardContent className="flex items-center p-6">
       <div className={`w-12 h-12 rounded-full flex items-center justify-center ${color}`}>
-        <Icon className="h-6 w-6 text-white" />
+        <div className="h-6 w-6 text-white">
+          <Icon />
+        </div>
       </div>
       <div className="ml-4 flex-grow">
         <p className="text-sm font-medium text-muted-foreground">{title}</p>

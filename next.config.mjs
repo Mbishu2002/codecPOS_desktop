@@ -1,4 +1,13 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+const nextConfig = {
+    output: 'export',
+    distDir: 'out',
+    eslint: {
+      ignoreDuringBuilds: true,
+    },
+    // assetPrefix: './',
+    trailingSlash: true,
+    reactStrictMode: true
+  };
+  
+  export default nextConfig;

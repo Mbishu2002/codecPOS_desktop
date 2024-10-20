@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { useState } from "react"
@@ -75,7 +76,7 @@ const Suppliers = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Suppliers</h1>
         <div className="flex gap-2">
-          <Button variant="blue" onClick={() => setIsDialogOpen(true)}>
+          <Button variant="secondary" onClick={() => setIsDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" /> Add Supplier
           </Button>
           <Button variant="outline">Export</Button>

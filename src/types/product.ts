@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 export interface Product {
-    id: string; // Add this line if 'id' is missing
+    id: number; 
     name: string;
     sku: string; // Add this line
     quantity: number; // Already added
@@ -12,4 +12,6 @@ export interface Product {
     status: string; // Required property
     description: string; // Add the missing property
     price: number; // Required property
+    image?: string;
+    inStock?: boolean;
 }

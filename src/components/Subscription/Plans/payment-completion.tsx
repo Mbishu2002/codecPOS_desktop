@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 
-export function PaymentCompletion({ selectedMethod, onBack }) {
+export function PaymentCompletion({ selectedMethod, onBack }: { selectedMethod: any; onBack: () => void }) {
   return (
     <>
       <Button variant="ghost" onClick={onBack} className="mb-4">

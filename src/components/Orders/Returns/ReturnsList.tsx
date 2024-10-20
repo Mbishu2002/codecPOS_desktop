@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { useState, useEffect } from "react"
@@ -11,6 +12,14 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowLeft, ArrowRight, Search, Plus, Edit, Trash2 } from "lucide-react"
 
 // Mock data for returns
+type Return = {
+  id: string;
+  date: string;
+  status: string;
+  customerName: string;
+  reason: string;
+};
+
 const initialReturns = [
   { id: "#12512B", date: "May 5, 4:20 PM", status: "Completed", customerName: "Aurelie Mballa", reason: "Wrong Item" },
   { id: "#12523C", date: "May 5, 4:15 PM", status: "Pending", customerName: "Jean-Claude Ndombe", reason: "Wrong Item" },
@@ -21,10 +30,10 @@ const Returns = () => {
   const [returns, setReturns] = useState(initialReturns)
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
-  const [selectedReturns, setSelectedReturns] = useState([])
+  const [selectedReturns, setSelectedReturns] = useState<string[]>([])
   const [isAddReturnOpen, setIsAddReturnOpen] = useState(false)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
-  const [selectedReturn, setSelectedReturn] = useState(null)
+  const [selectedReturn, setSelectedReturn] = useState<Return | null>(null)
 
   const itemsPerPage = 7
   const indexOfLastItem = currentPage * itemsPerPage
@@ -45,11 +54,11 @@ const Returns = () => {
 
   const totalPages = Math.ceil(filteredReturns.length / itemsPerPage)
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber)
-  }
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
 
-  const handleCheckboxChange = (returnId) => {
+  const handleCheckboxChange = (returnId: string) => {
     setSelectedReturns((prev) =>
       prev.includes(returnId)
         ? prev.filter((id) => id !== returnId)
@@ -61,7 +70,7 @@ const Returns = () => {
     // Add return logic...
   }
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'completed':
         return 'bg-green-100 text-green-800'
@@ -72,7 +81,7 @@ const Returns = () => {
     }
   }
 
-  const openDetailModal = (returnItem) => {
+  const openDetailModal = (returnItem: Return) => {
     setSelectedReturn(returnItem)
     setIsDetailOpen(true)
   }

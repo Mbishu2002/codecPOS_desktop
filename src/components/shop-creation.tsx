@@ -28,14 +28,16 @@ const ShopCreationPage = () => {
     nationalIdCard: null,
   })
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleFileUpload = (e) => {
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target
-    setFormData((prev) => ({ ...prev, [name]: files[0] }))
+    if (files && files[0]) {
+      setFormData((prev) => ({ ...prev, [name]: files[0] }))
+    }
   }
 
   const handleNext = () => {
@@ -46,7 +48,7 @@ const ShopCreationPage = () => {
     setStep((prev) => prev - 1)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     // Here you would typically send the formData to your backend
     console.log(formData)

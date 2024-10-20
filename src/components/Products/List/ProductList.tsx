@@ -8,34 +8,44 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { ListFilter, Pencil, Trash2 } from "lucide-react"
 import Image from 'next/image';
-import { Product } from "@/types/product"; // Ensure this matches the expected Product type
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Card, CardContent } from "@/components/ui/card"
+
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  inventory: number;
+  price: string;
+  image: string;
+  inStock: boolean;
+  description: string; // Added description property
+}
 
 interface ProductListProps {
   onProductClick: (product: Product) => void;
   onAddProduct: () => void;
 }
 
-const products = [
-  { id: 1, name: 'Men Grey Hoodie', category: 'Hoodies', inventory: 96, price: '3,490 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 2, name: 'Women Striped T-Shirt', category: 'T-Shirt', inventory: 56, price: '3,490 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 3, name: 'Women White T-Shirt', category: 'T-Shirt', inventory: 78, price: '2,878 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 4, name: 'Men White T-Shirt', category: 'T-Shirt', inventory: 32, price: '2,878 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 5, name: 'Women Red T-Shirt', category: 'T-Shirt', inventory: 0, price: '2,878 XAF', image: '/placeholder.svg', inStock: false },
-  { id: 6, name: 'Men Black Hoodie', category: 'Hoodies', inventory: 120, price: '3,690 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 7, name: 'Women Blue Jeans', category: 'Jeans', inventory: 45, price: '4,990 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 8, name: 'Men Khaki Pants', category: 'Pants', inventory: 60, price: '3,990 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 9, name: 'Women Floral Dress', category: 'Dresses', inventory: 25, price: '5,490 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 10, name: 'Men Denim Jacket', category: 'Jackets', inventory: 0, price: '6,990 XAF', image: '/placeholder.svg', inStock: false },
-  { id: 11, name: 'Women Leather Bag', category: 'Accessories', inventory: 15, price: '8,990 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 12, name: 'Men Sneakers', category: 'Shoes', inventory: 40, price: '7,490 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 13, name: 'Women Sunglasses', category: 'Accessories', inventory: 30, price: '2,490 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 14, name: 'Men Polo Shirt', category: 'T-Shirt', inventory: 85, price: '3,290 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 15, name: 'Women Cardigan', category: 'Sweaters', inventory: 0, price: '4,790 XAF', image: '/placeholder.svg', inStock: false },
-  { id: 16, name: 'Men Swim Shorts', category: 'Swimwear', inventory: 50, price: '2,990 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 17, name: 'Women Yoga Pants', category: 'Activewear', inventory: 70, price: '3,790 XAF', image: '/placeholder.svg', inStock: true },
-  { id: 18, name: 'Men Formal Shirt', category: 'Shirts', inventory: 55, price: '4,290 XAF', image: '/placeholder.svg', inStock: true },
+const products: Product[] = [
+  { id: 1, name: 'Men Grey Hoodie', category: 'Hoodies', inventory: 96, price: '3,490 XAF', image: '/placeholder.svg', inStock: true, description: 'A comfortable and stylish hoodie for men.' },
+  { id: 2, name: 'Women Striped T-Shirt', category: 'T-Shirt', inventory: 56, price: '3,490 XAF', image: '/placeholder.svg', inStock: true, description: 'A classic striped tee for women.' },
+  { id: 3, name: 'Women White T-Shirt', category: 'T-Shirt', inventory: 78, price: '2,878 XAF', image: '/placeholder.svg', inStock: true, description: 'A simple yet elegant white tee for women.' },
+  { id: 4, name: 'Men White T-Shirt', category: 'T-Shirt', inventory: 32, price: '2,878 XAF', image: '/placeholder.svg', inStock: true, description: 'A crisp white tee for men.' },
+  { id: 5, name: 'Women Red T-Shirt', category: 'T-Shirt', inventory: 0, price: '2,878 XAF', image: '/placeholder.svg', inStock: false, description: 'A vibrant red tee for women.' },
+  { id: 6, name: 'Men Black Hoodie', category: 'Hoodies', inventory: 120, price: '3,690 XAF', image: '/placeholder.svg', inStock: true, description: 'A sleek black hoodie for men.' },
+  { id: 7, name: 'Women Blue Jeans', category: 'Jeans', inventory: 45, price: '4,990 XAF', image: '/placeholder.svg', inStock: true, description: 'A pair of stylish blue jeans for women.' },
+  { id: 8, name: 'Men Khaki Pants', category: 'Pants', inventory: 60, price: '3,990 XAF', image: '/placeholder.svg', inStock: true, description: 'A pair of durable khaki pants for men.' },
+  { id: 9, name: 'Women Floral Dress', category: 'Dresses', inventory: 25, price: '5,490 XAF', image: '/placeholder.svg', inStock: true, description: 'A beautiful floral dress for women.' },
+  { id: 10, name: 'Men Denim Jacket', category: 'Jackets', inventory: 0, price: '6,990 XAF', image: '/placeholder.svg', inStock: false, description: 'A classic denim jacket for men.' },
+  { id: 11, name: 'Women Leather Bag', category: 'Accessories', inventory: 15, price: '8,990 XAF', image: '/placeholder.svg', inStock: true, description: 'A stylish leather bag for women.' },
+  { id: 12, name: 'Men Sneakers', category: 'Shoes', inventory: 40, price: '7,490 XAF', image: '/placeholder.svg', inStock: true, description: 'A pair of comfortable sneakers for men.' },
+  { id: 13, name: 'Women Sunglasses', category: 'Accessories', inventory: 30, price: '2,490 XAF', image: '/placeholder.svg', inStock: true, description: 'A pair of trendy sunglasses for women.' },
+  { id: 14, name: 'Men Polo Shirt', category: 'T-Shirt', inventory: 85, price: '3,290 XAF', image: '/placeholder.svg', inStock: true, description: 'A classic polo shirt for men.' },
+  { id: 15, name: 'Women Cardigan', category: 'Sweaters', inventory: 0, price: '4,790 XAF', image: '/placeholder.svg', inStock: false, description: 'A cozy cardigan for women.' },
+  { id: 16, name: 'Men Swim Shorts', category: 'Swimwear', inventory: 50, price: '2,990 XAF', image: '/placeholder.svg', inStock: true, description: 'A pair of comfortable swim shorts for men.' },
+  { id: 17, name: 'Women Yoga Pants', category: 'Activewear', inventory: 70, price: '3,790 XAF', image: '/placeholder.svg', inStock: true, description: 'A pair of yoga pants for women.' },
+  { id: 18, name: 'Men Formal Shirt', category: 'Shirts', inventory: 55, price: '4,290 XAF', image: '/placeholder.svg', inStock: true, description: 'A formal shirt for men.' },
 ]
 
 export function ProductList({ onProductClick, onAddProduct }: ProductListProps) {
@@ -168,7 +178,7 @@ export function ProductList({ onProductClick, onAddProduct }: ProductListProps) 
             {products.map((product) => (
               <TableRow 
                 key={product.id} 
-                onClick={() => onProductClick({...product, id: product.id.toString()})} 
+                onClick={() => onProductClick(product)} 
                 className="cursor-pointer"
               >
                 <TableCell>
@@ -202,7 +212,7 @@ export function ProductList({ onProductClick, onAddProduct }: ProductListProps) 
 
       {/* Mobile View */}
       <div className="md:hidden">
-        {products.map((product) => (
+      {products.map((product) => (
           <Card key={product.id} className="mb-4 cursor-pointer w-full" onClick={() => openOverlay(product)}>
             <CardContent className="flex items-center justify-between p-4">
               <div className="flex items-center">

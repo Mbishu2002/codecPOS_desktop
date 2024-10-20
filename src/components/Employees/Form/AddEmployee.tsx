@@ -7,13 +7,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChevronLeft } from "lucide-react"
 import { roles, shops } from "../Lib/constants"
-import { Employee } from "@/types/employee"; // Ensure this import matches the expected Employee type
+import { Employee } from "@/types/employee"; 
 
 interface AddEditEmployeeProps {
-  employee?: Employee | null; // Assuming employee can be null
+  employee?: Employee;
   onBack: () => void;
   onSave: (employee: Employee) => void;
-  isEdit: boolean; // Required property
+  isEdit: boolean;
 }
 
 export function AddEditEmployee({ employee, onBack, onSave, isEdit }: AddEditEmployeeProps) {
@@ -24,16 +24,22 @@ export function AddEditEmployee({ employee, onBack, onSave, isEdit }: AddEditEmp
     phone: employee?.phone || '',
     email: employee?.email || '',
     role: employee?.role || '',
+    department: employee?.department || '',
     shop: employee?.shop || '',
     country: employee?.country || '',
     address: employee?.address || '',
-    dateOfBirth: employee?.dateOfBirth || '',
+    dateOfBirth: employee?.dateOfBirth || new Date(), // Ensure it's a Date
     password: employee?.password || '',
+    hireDate: employee?.hireDate || new Date(),
+    status: employee?.status || 'active',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({
+      ...prev,
+      [name]: name === 'dateOfBirth' ? new Date(value) : value, // Convert string to Date
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -85,7 +91,12 @@ export function AddEditEmployee({ employee, onBack, onSave, isEdit }: AddEditEmp
               </div>
               <div>
                 <label className="text-sm font-medium text-gray-500">Date of Birth</label>
-                <Input name="dateOfBirth" type="date" value={formData.dateOfBirth} onChange={handleChange} />
+                <Input
+                  name="dateOfBirth"
+                  type="date"
+                  value={formData.dateOfBirth ? formData.dateOfBirth.toISOString().split('T')[0] : ''}
+                  onChange={handleChange}
+                />
               </div>
               <div>
                 <label className="text-sm font-medium text-gray-500">Email</label>

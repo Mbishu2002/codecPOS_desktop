@@ -3,13 +3,25 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
-const paymentMethods = [
+interface PaymentMethod {
+  id: string;
+  name: string;
+  description: string;
+}
+
+const paymentMethods: PaymentMethod[] = [
   { id: "cash", name: "Cash Payment", description: "This payment method allows your customers pay in cash" },
   { id: "mtn", name: "MTN MOMO", description: "This payment method allows your customers pay in cash" },
   { id: "orange", name: "ORANGE MONEY", description: "This payment method allows your customers pay in cash" },
 ]
 
-export function PaymentMethodSelection({ onSelectMethod, onBack }) {
+export function PaymentMethodSelection({
+  onSelectMethod,
+  onBack,
+}: {
+  onSelectMethod: (method: PaymentMethod) => void;
+  onBack: () => void;
+}) {
   return (
     <>
       <Button variant="ghost" onClick={onBack} className="mb-4">

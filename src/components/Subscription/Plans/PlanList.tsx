@@ -8,7 +8,24 @@ import { ComparePlans } from "@/components/Subscription/Plans/compare-plans"
 import { PaymentMethodSelection } from "@/components/Subscription/Plans/payment-method-selection"
 import { PaymentCompletion } from "@/components/Subscription/Plans/payment-completion"
 
-const plans = [
+
+interface PaymentMethod {
+  id: string;
+  name: string;
+  description: string;
+}
+
+
+interface Plan {
+  price: string;
+  duration: string;
+  description: string;
+  features: string[];
+  disabledFeatures: string[];
+  recommended?: boolean;
+}
+
+const plans: Plan[] = [
   {
     price: "14,900 XAF",
     duration: "3 MONTHS",
@@ -64,15 +81,15 @@ const plans = [
 
 export function Subscription() {
   const [step, setStep] = useState("plans")
-  const [selectedPlan, setSelectedPlan] = useState(null)
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null)
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null)
   const [showComparison, setShowComparison] = useState(false)
 
-  const handleSelectPlan = (plan) => {
+  const handleSelectPlan = (plan: Plan) => {
     setSelectedPlan(plan)
   }
 
-  const handleSelectPaymentMethod = (method) => {
+  const handleSelectPaymentMethod = (method: PaymentMethod): void => {
     setSelectedPaymentMethod(method)
     setStep("complete")
   }

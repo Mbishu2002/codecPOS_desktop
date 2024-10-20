@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { useState } from "react"
@@ -17,23 +18,45 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Search, Edit, Trash2 } from "lucide-react"
+import { Employee } from "@/types/employee"
 
 // Mock data
-const employees = [
-  { id: "1", name: "Aurelie Mballa", phone: "237674537760", role: "Admin", email: "aurelie@example.com" },
-  { id: "2", name: "Jean-Claude Ndombe", phone: "237674537771", role: "Seller", email: "jean.claude@example.com" },
-  { id: "3", name: "Marie Kouassi", phone: "237674537772", role: "Manager", email: "marie@example.com" },
+const employees: Employee[] = [
+  {
+    id: "1",
+    firstName: "Aurelie",
+    lastName: "Mballa",
+    phone: "237674537760",
+    role: "Admin",
+    email: "aurelie@example.com",
+    department: "HR",
+    hireDate: new Date('2020-01-01'),
+    status: 'active'
+  },
+  {
+    id: "2",
+    firstName: "Jean-Claude",
+    lastName: "Ndombe",
+    phone: "237674537771",
+    role: "Seller",
+    email: "jean.claude@example.com",
+    department: "Sales",
+    hireDate: new Date('2021-02-01'),
+    status: 'active'
+  },
+  {
+    id: "3",
+    firstName: "Marie",
+    lastName: "Kouassi",
+    phone: "237674537772",
+    role: "Manager",
+    email: "marie@example.com",
+    department: "Management",
+    hireDate: new Date('2019-03-01'),
+    status: 'active'
+  },
 ]
-
 const roles = ["Admin", "Seller", "Manager"]
-
-interface Employee {
-  id: string;
-  name: string;
-  phone: string;
-  role: string;
-  email: string;
-}
 
 interface EmployeeListProps {
   onEmployeeClick: (employee: Employee) => void;
@@ -81,8 +104,8 @@ export function EmployeeList({ onEmployeeClick, onAddEmployee, onEditEmployee }:
         </CardHeader>
         <CardContent className="max-h-[400px] overflow-y-auto"> {/* Added scrollable area */}
           <div className="flex flex-col md:flex-row justify-between mb-4">
-            <Select className="w-full md:w-[180px] mb-2 md:mb-0">
-              <SelectTrigger>
+            <Select>
+              <SelectTrigger className="w-full md:w-[180px] mb-2 md:mb-0">
                 <SelectValue placeholder="Filter Role" />
               </SelectTrigger>
               <SelectContent>
@@ -122,9 +145,9 @@ export function EmployeeList({ onEmployeeClick, onAddEmployee, onEditEmployee }:
                     <TableCell className="font-medium">
                       <div className="flex items-center space-x-3">
                         <Avatar className="bg-[#EEF2FF] text-[#3F5BF6]">
-                          <AvatarFallback>{employee.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                          <AvatarFallback>{employee.firstName[0]}{employee.lastName[0]}</AvatarFallback>
                         </Avatar>
-                        <span>{employee.name}</span>
+                        <span>{employee.firstName} {employee.lastName}</span>
                       </div>
                     </TableCell>
                     <TableCell>{employee.phone}</TableCell>

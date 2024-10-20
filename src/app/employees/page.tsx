@@ -41,22 +41,28 @@ export default function EmployeesPage() {
     <DashboardLayout>
       <div className="container mx-auto p-6">
         {view === "list" && (
-          <EmployeeList 
-            onEmployeeClick={handleEmployeeClick} 
+          <EmployeeList
+            onEmployeeClick={handleEmployeeClick}
             onAddEmployee={handleAddEmployee}
             onEditEmployee={handleEditEmployee}
           />
         )}
         {(view === "add" || view === "edit") && (
           <AddEditEmployee
-            onBack={handleBack} 
+            onBack={handleBack}
             onSave={handleSaveEmployee}
             employee={view === "edit" ? selectedEmployee || undefined : undefined} // Pass employee
             isEdit={view === "edit"} // Pass isEdit based on the current view
           />
         )}
         {view === "details" && selectedEmployee && (
-          <EmployeeDetails employee={selectedEmployee} onBack={handleBack} />
+          <EmployeeDetails
+            employee={{
+              ...selectedEmployee,
+              name: `${selectedEmployee.firstName} ${selectedEmployee.lastName}`
+            }}
+            onBack={handleBack}
+          />
         )}
       </div>
     </DashboardLayout>

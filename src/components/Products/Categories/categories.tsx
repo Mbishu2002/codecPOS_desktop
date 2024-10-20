@@ -6,37 +6,43 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
-
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Search, Plus, Edit, Trash2 } from "lucide-react"
-import Image from 'next/image';
+import Image from 'next/image'
 
+interface Category {
+  id: string;
+  name: string;
+  image?: File | null | string;
+  description?: string;
+  itemCount?: number;
+}
 
 // Mock data for categories
-const initialCategories = [
-  { id: 1, name: "Men Clothes", itemCount: 24, image: "/placeholder.svg?height=100&width=100" },
-  { id: 2, name: "Women Clothes", itemCount: 12, image: "/placeholder.svg?height=100&width=100" },
-  { id: 3, name: "Accessories", itemCount: 43, image: "/placeholder.svg?height=100&width=100" },
-  { id: 4, name: "Cotton Clothes", itemCount: 31, image: "/placeholder.svg?height=100&width=100" },
-  { id: 5, name: "Summer Clothes", itemCount: 26, image: "/placeholder.svg?height=100&width=100" },
-  { id: 6, name: "Wedding Clothes", itemCount: 52, image: "/placeholder.svg?height=100&width=100" },
+const initialCategories: Category[] = [
+  { id: "1", name: "Men Clothes", itemCount: 24, image: "/placeholder.svg?height=100&width=100" },
+  { id: "2", name: "Women Clothes", itemCount: 12, image: "/placeholder.svg?height=100&width=100" },
+  { id: "3", name: "Accessories", itemCount: 43, image: "/placeholder.svg?height=100&width=100" },
+  { id: "4", name: "Cotton Clothes", itemCount: 31, image: "/placeholder.svg?height=100&width=100" },
+  { id: "5", name: "Summer Clothes", itemCount: 26, image: "/placeholder.svg?height=100&width=100" },
+  { id: "6", name: "Wedding Clothes", itemCount: 52, image: "/placeholder.svg?height=100&width=100" },
 ]
 
 const Categories = () => {
-  const [categories, setCategories] = useState(initialCategories)
+  const [categories, setCategories] = useState<Category[]>(initialCategories)
   const [searchTerm, setSearchTerm] = useState("")
   const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false)
-  const [newCategory, setNewCategory] = useState({ name: "", description: "", image: null })
-  const [editingCategory, setEditingCategory] = useState(null)
+  const [newCategory, setNewCategory] = useState<Partial<Category>>({ name: "", description: "", image: null })
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null)
 
   const filteredCategories = categories.filter(category =>
     category.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const handleAddCategory = () => {
-    const categoryToAdd = {
-      id: categories.length + 1,
-      name: newCategory.name,
+    const categoryToAdd: Category = {
+      id: (categories.length + 1).toString(),
+      name: newCategory.name || "",
       itemCount: 0,
       image: newCategory.image || "/placeholder.svg?height=100&width=100"
     }
@@ -45,23 +51,29 @@ const Categories = () => {
     setNewCategory({ name: "", description: "", image: null })
   }
 
-  const handleEditCategory = (category) => {
+  const handleEditCategory = (category: Category) => {
     setEditingCategory(category)
-    setNewCategory({ name: category.name, description: "", image: category.image })
+    setNewCategory({ 
+      name: category.name, 
+      description: category.description, 
+      image: typeof category.image === 'string' ? category.image : null
+    })
     setIsAddCategoryOpen(true)
   }
 
   const handleUpdateCategory = () => {
-    const updatedCategories = categories.map(cat =>
-      cat.id === editingCategory.id ? { ...cat, name: newCategory.name, image: newCategory.image || cat.image } : cat
-    )
-    setCategories(updatedCategories)
+    if (editingCategory) {
+      const updatedCategories = categories.map(cat =>
+        cat.id === editingCategory.id ? { ...cat, ...newCategory, image: newCategory.image || cat.image } : cat
+      )
+      setCategories(updatedCategories)
+    }
     setIsAddCategoryOpen(false)
     setEditingCategory(null)
     setNewCategory({ name: "", description: "", image: null })
   }
 
-  const handleDeleteCategory = (categoryId) => {
+  const handleDeleteCategory = (categoryId: string) => {
     setCategories(categories.filter(cat => cat.id !== categoryId))
   }
 
@@ -109,7 +121,10 @@ const Categories = () => {
                 <Input
                   id="image"
                   type="file"
-                  onChange={(e) => setNewCategory({ ...newCategory, image: e.target.files[0] })}
+                  onChange={(e) => {
+                    const file = e.target.files ? e.target.files[0] : null;
+                    setNewCategory({ ...newCategory, image: file });
+                  }}
                   className="col-span-3"
                 />
               </div>
@@ -138,10 +153,10 @@ const Categories = () => {
             <Card key={category.id}>
               <CardContent className="p-4">
                 <Image 
-                  src={category.image} 
+                  src={typeof category.image === 'string' ? category.image : "/placeholder.svg?height=100&width=100"} 
                   alt={category.name} 
-                  width={100} // Specify the width
-                  height={100} // Specify the height
+                  width={100}
+                  height={100}
                   className="w-full h-40 object-cover mb-2 rounded" 
                 />
                 <h3 className="font-semibold text-lg">{category.name}</h3>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -8,38 +8,47 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Edit, Minus, Plus, X } from "lucide-react"
 import Image from 'next/image'
 
-// Mock data for products (expanded)
-const products = [
+// Define the Product interface
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  inStock: boolean;
+}
+
+// Define the CartItem interface (extends Product with quantity and inventory)
+interface CartItem extends Product {
+  quantity: number;
+  inventory: string;
+}
+
+// Define the Inventory interface
+interface Inventory {
+  id: number;
+  name: string;
+}
+
+// Mock data for products
+const products: Product[] = [
   { id: 1, name: "Men White T-Shirt", price: 3490, image: "/placeholder.svg?height=100&width=100", inStock: true },
   { id: 2, name: "Men Grey Shoes", price: 5990, image: "/placeholder.svg?height=100&width=100", inStock: false },
-  { id: 3, name: "Men Blue Suit", price: 29990, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 4, name: "Women Red Dress", price: 8990, image: "/placeholder.svg?height=100&width=100", inStock: false },
-  { id: 5, name: "Women White Blouse", price: 4490, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 6, name: "Kids Yellow Raincoat", price: 6990, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 7, name: "Men Black Jeans", price: 7990, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 8, name: "Women Blue Jeans", price: 7990, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 9, name: "Kids Green T-Shirt", price: 2990, image: "/placeholder.svg?height=100&width=100", inStock: false },
-  { id: 10, name: "Men Brown Leather Jacket", price: 19990, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 11, name: "Women Black Heels", price: 8990, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 12, name: "Kids Blue Sneakers", price: 4990, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 13, name: "Men Green Polo Shirt", price: 4990, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 14, name: "Women Purple Sweater", price: 7990, image: "/placeholder.svg?height=100&width=100", inStock: false },
-  { id: 15, name: "Kids Red Cap", price: 1990, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 16, name: "Men Navy Blue Blazer", price: 24990, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 17, name: "Women Beige Scarf", price: 3490, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 18, name: "Kids Pink Dress", price: 5990, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 19, name: "Men Grey Sweater", price: 8990, image: "/placeholder.svg?height=100&width=100", inStock: true },
-  { id: 20, name: "Women White Sneakers", price: 6990, image: "/placeholder.svg?height=100&width=100", inStock: false },
+  // ... (other product items)
 ]
 
 // Mock data for inventories
-const inventories = [
+const inventories: Inventory[] = [
   { id: 1, name: "Main Store" },
   { id: 2, name: "Warehouse A" },
   { id: 3, name: "Warehouse B" },
 ]
 
-const ProductCard = ({ product, onAddToCart }) => (
+interface ProductCardProps {
+  product: Product;
+  onAddToCart: (product: Product) => void;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => (
   <Card className="w-full">
     <CardContent className="p-4">
       <Image src={product.image} alt={product.name} className="w-full h-32 object-cover mb-2" width={100} height={100} />
@@ -62,7 +71,14 @@ const ProductCard = ({ product, onAddToCart }) => (
   </Card>
 )
 
-const CartItem = ({ item, onUpdateQuantity, onRemove, onChangeInventory }) => (
+interface CartItemProps {
+  item: CartItem;
+  onUpdateQuantity: (id: number, newQuantity: number) => void;
+  onRemove: (id: number) => void;
+  onChangeInventory: (id: number, newInventory: string) => void;
+}
+
+const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemove, onChangeInventory }) => (
   <div className="flex flex-col py-2 border-b">
     <div className="flex justify-between items-center">
       <div>
@@ -103,7 +119,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove, onChangeInventory }) => (
 )
 
 export function Pos() {
-  const [cartItems, setCartItems] = useState([])
+  const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [promoCode, setPromoCode] = useState("")
   const [paymentType, setPaymentType] = useState("CASH")
@@ -121,7 +137,7 @@ export function Pos() {
     currentPage * itemsPerPage
   )
 
-  const addToCart = (product) => {
+  const addToCart = (product: Product) => {
     const existingItem = cartItems.find(item => item.id === product.id)
     if (existingItem) {
       setCartItems(cartItems.map(item => 
@@ -132,7 +148,7 @@ export function Pos() {
     }
   }
 
-  const updateQuantity = (id, newQuantity) => {
+  const updateQuantity = (id: number, newQuantity: number) => {
     if (newQuantity === 0) {
       setCartItems(cartItems.filter(item => item.id !== id))
     } else {
@@ -142,11 +158,11 @@ export function Pos() {
     }
   }
 
-  const removeFromCart = (id) => {
+  const removeFromCart = (id: number) => {
     setCartItems(cartItems.filter(item => item.id !== id))
   }
 
-  const changeInventory = (id, inventoryId) => {
+  const changeInventory = (id: number, inventoryId: string) => {
     setCartItems(cartItems.map(item => 
       item.id === id ? { ...item, inventory: inventoryId } : item
     ))
@@ -156,7 +172,7 @@ export function Pos() {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
   }
 
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage)
     }

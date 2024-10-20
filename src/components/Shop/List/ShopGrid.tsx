@@ -8,24 +8,35 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { PlusCircle, Edit2 } from "lucide-react"
 import { ShopForm } from "../Setup/shop-form"
 
+// Interface for Shop
+interface Shop {
+  id?: number;
+  name: string;
+  mobileNumber: string;
+  manager: string;
+  address: string;
+  city: string;
+  country: string;
+}
+
 // Mock data for existing shops
-const initialShops = [
+const initialShops: Shop[] = [
   { id: 1, name: "Shop 1", mobileNumber: "123456789", manager: "John Doe", address: "123 Main St", city: "City 1", country: "Cameroon" },
   { id: 2, name: "Shop 2", mobileNumber: "987654321", manager: "Jane Smith", address: "456 Elm St", city: "City 2", country: "Nigeria" },
   { id: 3, name: "Shop 3", mobileNumber: "456789123", manager: "Bob Johnson", address: "789 Oak St", city: "City 3", country: "Ghana" },
 ]
 
 export function Shops() {
-  const [shops, setShops] = useState(initialShops)
-  const [isAddingShop, setIsAddingShop] = useState(false)
-  const [editingShop, setEditingShop] = useState(null)
+  const [shops, setShops] = useState<Shop[]>(initialShops)
+  const [isAddingShop, setIsAddingShop] = useState<boolean>(false)
+  const [editingShop, setEditingShop] = useState<Shop | null>(null)
 
-  const handleAddShop = (newShop) => {
+  const handleAddShop = (newShop: Shop) => {
     setShops([...shops, { ...newShop, id: shops.length + 1 }])
     setIsAddingShop(false)
   }
 
-  const handleEditShop = (updatedShop) => {
+  const handleEditShop = (updatedShop: Shop) => {
     setShops(shops.map(shop => shop.id === updatedShop.id ? updatedShop : shop))
     setEditingShop(null)
   }

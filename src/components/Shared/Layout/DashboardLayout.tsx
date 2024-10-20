@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -50,19 +50,15 @@ const navigationItems = [
   { name: 'POS', href: '/pos', icon: Monitor },
   { name: 'Customers', href: '/customers', icon: Users },
   { name: 'Shops', href: '/shops', icon: Home },
-
-
   { name: 'Inventory', href: '/Inventory/dashboard', icon: Package,
     subItems: [ 
       {name: 'Dashboard', href: '/Inventory/dashboard'},
       { name: 'Inventory List', href: '/Inventory/Inventory-list' },
       {name: 'Add Inventory', href: 'Inventory/add-inventory'},
       {name: 'Purchase History', href: 'Inventory/purchase-history'},
-      {name: 'Stock Movement', href:   'Inventory/stock-movement' },
-
+      {name: 'Stock Movement', href: 'Inventory/stock-movement' },
     ],
   },
-
   { name: 'Subscriptions', href: '/subscriptions', icon: CreditCard },
   { name: 'Employees', href: '/employees', icon: UserCheck },
   {
@@ -102,9 +98,20 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => !prev)
+  }
+
   const toggleDropdown = (name: string) => {
-    setOpenDropdowns(prev => ({ ...prev, [name]: !prev[name] }))
+    setOpenDropdowns((prev) => ({
+      ...prev,
+      [name]: !prev[name]
+    }))
+  }
+
+  const handleNavigation = (href: string) => {
+    // Use window.location for navigation in Electron
+    window.location.href = href
   }
 
   return (
@@ -116,14 +123,21 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           sidebarOpen ? "w-64" : "w-0 lg:w-20"
         )}
       >
-        <div className="flex items-center justify-between h-16 px-4 border-b">
+        <div className="flex items-center h-16 px-4 border-b">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleSidebar}
+            className="mr-2"
+          >
+            <Menu className="h-6 w-6" />
+          </Button>
           {sidebarOpen ? (
-            <Link href="/" className="flex items-center space-x-2">
-              <Package className="h-6 w-6 text-blue-600" />
-              <span className="text-xl font-bold">SalesBox</span>
-            </Link>
+            <a href="/" onClick={(e) => { e.preventDefault(); handleNavigation('/'); }} className="flex items-center space-x-2">
+              <Image src="/assets/images/salesbox-logo.svg" alt="SalesBox Logo" width={150} height={150} />
+            </a>
           ) : (
-            <Package className="h-6 w-6 text-blue-600 mx-auto" />
+            <Image src="/assets/images/logo.svg" alt="SalesBox Logo" width={150} height={150} className="mx-auto" />
           )}
         </div>
         <nav className="flex-1 overflow-y-auto py-4">
@@ -149,28 +163,28 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                       <ul className="mt-2 space-y-1 px-3">
                         {item.subItems.map((subItem) => (
                           <li key={subItem.name}>
-                            <Link
-                              href={subItem.href} 
+                            <a
+                              href={subItem.href}
                               className={cn(
                                 "block rounded-md px-3 py-2 text-sm font-medium transition-colors",
                                 pathname === subItem.href
                                   ? "bg-blue-600 text-white"
                                   : "text-gray-700 hover:bg-gray-100"
                               )}
-                              onClick={() => {
-                                // Keep the dropdown open when clicking a sub-item
-                                setOpenDropdowns(prev => ({ ...prev, [item.name]: true }));
+                              onClick={(e) => {
+                                e.preventDefault()
+                                handleNavigation(subItem.href)
                               }}
                             >
                               {subItem.name}
-                            </Link>
+                            </a>
                           </li>
                         ))}
                       </ul>
                     )}
                   </div>
                 ) : (
-                  <Link
+                  <a
                     href={item.href}
                     className={cn(
                       "flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors",
@@ -178,10 +192,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                         ? "bg-blue-600 text-white"
                         : "text-gray-700 hover:bg-gray-100"
                     )}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleNavigation(item.href)
+                    }}
                   >
                     <item.icon className={cn("h-5 w-5 flex-shrink-0", sidebarOpen ? "mr-3" : "mx-auto")} />
                     {sidebarOpen && <span>{item.name}</span>}
-                  </Link>
+                  </a>
                 )}
               </li>
             ))}
@@ -193,7 +211,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <ul className="mt-3 space-y-1 px-3">
               {settingsItems.map((item) => (
                 <li key={item.name}>
-                  <Link
+                  <a
                     href={item.href}
                     className={cn(
                       "flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors",
@@ -201,10 +219,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                         ? "bg-blue-600 text-white"
                         : "text-gray-700 hover:bg-gray-100"
                     )}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleNavigation(item.href)
+                    }}
                   >
                     <item.icon className={cn("h-5 w-5 flex-shrink-0", sidebarOpen ? "mr-3" : "mx-auto")} />
                     {sidebarOpen && <span>{item.name}</span>}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -233,13 +255,6 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         {/* Header */}
         <header className="bg-white border-b h-16 flex items-center justify-between px-4">
           <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleSidebar}
-            >
-              <Menu className="h-6 w-6" />
-            </Button>
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-5 w-5 text-gray-500" />
               <Input

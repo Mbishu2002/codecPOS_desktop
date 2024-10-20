@@ -3,8 +3,19 @@
 import { useState } from "react"
 import { ProductList } from "@/components/Products/List/ProductList"
 import { AddProduct } from "@/components/Products/Form/AddProduct"
-import { Product } from "@/types/product"; // Ensure this import matches the expected Product type
 import { DashboardLayout } from "@/components/Shared/Layout/DashboardLayout"
+
+
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  inventory: number;
+  price: string;
+  image: string;
+  inStock: boolean;
+  description: string; // Added description property
+}
 
 export default function ProductsPage() {
   const [view, setView] = useState<"list" | "add" | "details">("list");
